@@ -1,0 +1,138 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8765
+  },
+  "provider": {
+    "kind": "ollama",
+    "base_url": "http://127.0.0.1:11434",
+    "follow_redirects": false
+  },
+  "privacy": {
+    "retain_prompts": false,
+    "retain_responses": false,
+    "log_content": false,
+    "export_content": false
+  },
+  "conversation": {
+    "max_turns_in_memory": 50
+  },
+  "models": [
+    {
+      "id": "model-1",
+      "tag": "example/model-1:synthetic",
+      "enabled": true,
+      "display_name": "Synthetic model 1",
+      "context_window": 8192,
+      "max_output_tokens": 1024,
+      "input_modalities": [
+        "text"
+      ],
+      "supports_tools": false,
+      "task_suitability": {
+        "chat": {
+          "score": 0.5,
+          "source": "operator_configured",
+          "note": null
+        },
+        "code": {
+          "score": 0.25,
+          "source": "operator_configured",
+          "note": null
+        }
+      },
+      "latency": {
+        "ttft_ms": 800.0,
+        "tokens_per_second": 20.0,
+        "source": "configured"
+      }
+    },
+    {
+      "id": "model-2",
+      "tag": "example/model-2:synthetic",
+      "enabled": true,
+      "display_name": "Synthetic model 2",
+      "context_window": 8192,
+      "max_output_tokens": 1024,
+      "input_modalities": [
+        "text"
+      ],
+      "supports_tools": false,
+      "task_suitability": {
+        "chat": {
+          "score": 0.5,
+          "source": "operator_configured",
+          "note": null
+        },
+        "code": {
+          "score": 0.25,
+          "source": "operator_configured",
+          "note": null
+        }
+      },
+      "latency": {
+        "ttft_ms": 800.0,
+        "tokens_per_second": 20.0,
+        "source": "configured"
+      }
+    },
+    {
+      "id": "model-3",
+      "tag": "example/model-3:synthetic",
+      "enabled": true,
+      "display_name": "Synthetic model 3",
+      "context_window": 8192,
+      "max_output_tokens": 1024,
+      "input_modalities": [
+        "text"
+      ],
+      "supports_tools": false,
+      "task_suitability": {
+        "chat": {
+          "score": 0.5,
+          "source": "operator_configured",
+          "note": null
+        },
+        "code": {
+          "score": 0.25,
+          "source": "operator_configured",
+          "note": null
+        }
+      },
+      "latency": {
+        "ttft_ms": 800.0,
+        "tokens_per_second": 20.0,
+        "source": "configured"
+      }
+    },
+    {
+      "id": "model-4",
+      "tag": "example/model-4:synthetic",
+      "enabled": true,
+      "display_name": "Synthetic model 4",
+      "context_window": 8192,
+      "max_output_tokens": 1024,
+      "input_modalities": [
+        "text"
+      ],
+      "supports_tools": false,
+      "task_suitability": {
+        "chat": {
+          "score": 0.5,
+          "source": "operator_configured",
+          "note": null
+        },
+        "code": {
+          "score": 0.25,
+          "source": "operator_configured",
+          "note": null
+        }
+      },
+      "latency": {
+        "ttft_ms": 800.0,
+        "tokens_per_second": 20.0,
+        "source": "configured"
+      }
+    }
+  ]
+}

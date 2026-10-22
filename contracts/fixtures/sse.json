@@ -1,0 +1,444 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "SSE framing, Last-Event-ID parsing/replay, client de-duplication.",
+  "frame": {
+    "event": {
+      "schema_version": 1,
+      "run_id": "run_00000000000000000000000000000001",
+      "conversation_id": "conv_00000000000000000000000000000001",
+      "phase_id": "ph_00000000000000000000000000000001",
+      "phase": "queued",
+      "sequence": 1,
+      "timestamp": "2026-10-22T10:00:00.010Z",
+      "type": "run.queued",
+      "payload": {
+        "routing_mode": "auto",
+        "model_override": null,
+        "message_count": 1,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        }
+      }
+    },
+    "expected_id": "1",
+    "expected_event": "run.queued"
+  },
+  "preamble": "retry: 2000\n\n",
+  "keepalive": ": keepalive\n\n",
+  "last_event_id": [
+    {
+      "header": null,
+      "query": null,
+      "expected": 0
+    },
+    {
+      "header": "",
+      "query": null,
+      "expected": 0
+    },
+    {
+      "header": "0",
+      "query": null,
+      "expected": 0
+    },
+    {
+      "header": "42",
+      "query": null,
+      "expected": 42
+    },
+    {
+      "header": null,
+      "query": "7",
+      "expected": 7
+    },
+    {
+      "header": "3",
+      "query": "7",
+      "expected": 3,
+      "note": "header wins over query"
+    },
+    {
+      "header": "-1",
+      "query": null,
+      "error": "invalid_last_event_id"
+    },
+    {
+      "header": "abc",
+      "query": null,
+      "error": "invalid_last_event_id"
+    },
+    {
+      "header": "1.5",
+      "query": null,
+      "error": "invalid_last_event_id"
+    },
+    {
+      "header": "0x10",
+      "query": null,
+      "error": "invalid_last_event_id"
+    },
+    {
+      "header": " 3",
+      "query": null,
+      "error": "invalid_last_event_id"
+    },
+    {
+      "header": "99999999999999999",
+      "query": null,
+      "error": "invalid_last_event_id"
+    }
+  ],
+  "replay": {
+    "persisted": [
+      {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000001",
+        "phase": "queued",
+        "sequence": 1,
+        "timestamp": "2026-10-22T10:00:00.010Z",
+        "type": "run.queued",
+        "payload": {
+          "routing_mode": "auto",
+          "model_override": null,
+          "message_count": 1,
+          "retention": {
+            "prompts": false,
+            "responses": false
+          }
+        }
+      },
+      {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000002",
+        "phase": "routing",
+        "sequence": 2,
+        "timestamp": "2026-10-22T10:00:00.020Z",
+        "type": "routing.started",
+        "payload": {}
+      },
+      {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000002",
+        "phase": "routing",
+        "sequence": 3,
+        "timestamp": "2026-10-22T10:00:00.030Z",
+        "type": "routing.decided",
+        "payload": {
+          "decision": {
+            "policy_version": "synthetic-policy-0",
+            "mode": "auto",
+            "requirements": {
+              "task_type": "chat",
+              "required_modalities": [
+                "text"
+              ],
+              "requires_tools": false,
+              "source": "rules",
+              "confidence": null,
+              "classifier_id": null
+            },
+            "context_estimate": {
+              "method": "ascii3_nonascii1_v1",
+              "message_count": 1,
+              "point_tokens": 33,
+              "upper_bound_tokens": 42,
+              "margin": 1.25,
+              "uncertainty": "Synthetic fixture value."
+            },
+            "candidates": [
+              {
+                "model_id": "model-1",
+                "tag": "example/model-1:synthetic",
+                "eligible": true,
+                "rejections": [],
+                "context_fit": {
+                  "fits": true,
+                  "context_window": 8192,
+                  "upper_bound_tokens": 42,
+                  "output_reserve": 1024,
+                  "required_tokens": 1066,
+                  "failure": null
+                },
+                "components": [
+                  {
+                    "name": "task_suitability",
+                    "value": 0.75,
+                    "weight": 0.5,
+                    "contribution": 0.375
+                  },
+                  {
+                    "name": "latency",
+                    "value": 0.5,
+                    "weight": 0.5,
+                    "contribution": 0.25
+                  }
+                ],
+                "score": 0.625
+              },
+              {
+                "model_id": "model-2",
+                "tag": "example/model-2:synthetic",
+                "eligible": true,
+                "rejections": [],
+                "context_fit": {
+                  "fits": true,
+                  "context_window": 8192,
+                  "upper_bound_tokens": 42,
+                  "output_reserve": 1024,
+                  "required_tokens": 1066,
+                  "failure": null
+                },
+                "components": [
+                  {
+                    "name": "task_suitability",
+                    "value": 0.5,
+                    "weight": 0.5,
+                    "contribution": 0.25
+                  },
+                  {
+                    "name": "latency",
+                    "value": 0.25,
+                    "weight": 0.5,
+                    "contribution": 0.125
+                  }
+                ],
+                "score": 0.375
+              },
+              {
+                "model_id": "model-3",
+                "tag": "example/model-3:synthetic",
+                "eligible": false,
+                "rejections": [
+                  "not_installed"
+                ],
+                "context_fit": null,
+                "components": [],
+                "score": null
+              },
+              {
+                "model_id": "model-4",
+                "tag": "example/model-4:synthetic",
+                "eligible": false,
+                "rejections": [
+                  "context_exceeded"
+                ],
+                "context_fit": {
+                  "fits": false,
+                  "context_window": 512,
+                  "upper_bound_tokens": 42,
+                  "output_reserve": 1024,
+                  "required_tokens": 1066,
+                  "failure": "context_exceeded"
+                },
+                "components": [],
+                "score": null
+              }
+            ],
+            "outcome": "selected",
+            "selected_model_id": "model-1",
+            "reasons": [
+              "highest_score"
+            ],
+            "override_applied": false,
+            "sticky_applied": false,
+            "decided_at": "2026-10-22T10:00:00.005Z"
+          }
+        }
+      },
+      {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000003",
+        "phase": "generating",
+        "sequence": 4,
+        "timestamp": "2026-10-22T10:00:00.040Z",
+        "type": "generation.started",
+        "payload": {
+          "model_id": "model-1",
+          "tag": "example/model-1:synthetic",
+          "reserved_output_tokens": 1024
+        }
+      },
+      {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000003",
+        "phase": "generating",
+        "sequence": 5,
+        "timestamp": "2026-10-22T10:00:00.050Z",
+        "type": "generation.delta",
+        "payload": {
+          "index": 0,
+          "text": "Rain",
+          "redacted": false
+        }
+      },
+      {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000003",
+        "phase": "generating",
+        "sequence": 6,
+        "timestamp": "2026-10-22T10:00:00.060Z",
+        "type": "generation.metrics",
+        "payload": {
+          "metrics": {
+            "routing_ms": 3.5,
+            "wall_ms": 2600.0,
+            "ttft_ms": 700.0,
+            "load_ms": 500.0,
+            "prompt_eval_ms": 100.0,
+            "generation_ms": 1600.0,
+            "ollama_total_ms": 2500.0,
+            "prompt_tokens": 26,
+            "generated_tokens": 100,
+            "prompt_tokens_per_second": 260.0,
+            "generation_tokens_per_second": 62.5,
+            "raw_ollama": {
+              "total_duration": 2500000000,
+              "load_duration": 500000000,
+              "prompt_eval_count": 26,
+              "prompt_eval_duration": 100000000,
+              "eval_count": 100,
+              "eval_duration": 1600000000
+            },
+            "completeness": {
+              "status": "complete",
+              "missing": [],
+              "reason": null
+            }
+          }
+        }
+      },
+      {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000003",
+        "phase": "generating",
+        "sequence": 7,
+        "timestamp": "2026-10-22T10:00:00.070Z",
+        "type": "run.completed",
+        "payload": {
+          "finish_reason": "stop",
+          "visible_chunks": 2
+        }
+      }
+    ],
+    "cases": [
+      {
+        "last_event_id": 0,
+        "expected_sequences": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "last_event_id": 4,
+        "expected_sequences": [
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "last_event_id": 7,
+        "expected_sequences": []
+      },
+      {
+        "last_event_id": 8,
+        "error": "invalid_last_event_id",
+        "note": "beyond last persisted event: events are persisted before delivery"
+      }
+    ]
+  },
+  "tracker": [
+    {
+      "name": "in order",
+      "sequences": [
+        1,
+        2,
+        3
+      ],
+      "expected": [
+        "apply",
+        "apply",
+        "apply"
+      ]
+    },
+    {
+      "name": "duplicates after reconnect are dropped",
+      "sequences": [
+        1,
+        2,
+        3,
+        2,
+        3,
+        4
+      ],
+      "expected": [
+        "apply",
+        "apply",
+        "apply",
+        "duplicate",
+        "duplicate",
+        "apply"
+      ]
+    },
+    {
+      "name": "gap is reported, not applied",
+      "sequences": [
+        1,
+        2,
+        4
+      ],
+      "expected": [
+        "apply",
+        "apply",
+        "gap"
+      ],
+      "last_after": 2
+    },
+    {
+      "name": "gap then replay fills it",
+      "sequences": [
+        1,
+        3,
+        2,
+        3
+      ],
+      "expected": [
+        "apply",
+        "gap",
+        "apply",
+        "apply"
+      ],
+      "last_after": 3
+    },
+    {
+      "name": "sequence 0 / stale is duplicate",
+      "sequences": [
+        0
+      ],
+      "expected": [
+        "duplicate"
+      ]
+    }
+  ]
+}

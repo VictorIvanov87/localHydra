@@ -1,0 +1,122 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/health",
+    "summary": "Liveness and local-only boundary",
+    "request_schema": null,
+    "response_schema": "HealthResponse",
+    "content_type": "application/json",
+    "success_status": 200,
+    "error_codes": [],
+    "implemented_by": "LH-001"
+  },
+  {
+    "method": "GET",
+    "path": "/api/models",
+    "summary": "Configured model profiles with observed state",
+    "request_schema": null,
+    "response_schema": "ModelsResponse",
+    "content_type": "application/json",
+    "success_status": 200,
+    "error_codes": [],
+    "implemented_by": "LH-001"
+  },
+  {
+    "method": "POST",
+    "path": "/api/runs",
+    "summary": "Create a run (one solver per turn)",
+    "request_schema": "CreateRunRequest",
+    "response_schema": "CreateRunResponse",
+    "content_type": "application/json",
+    "success_status": 202,
+    "error_codes": [
+      "validation_error",
+      "conversation_not_found",
+      "conversation_busy",
+      "model_unavailable",
+      "model_override_ineligible"
+    ],
+    "implemented_by": "LH-004"
+  },
+  {
+    "method": "GET",
+    "path": "/api/runs",
+    "summary": "Paginated run history",
+    "request_schema": "ListRunsQuery",
+    "response_schema": "RunPage",
+    "content_type": "application/json",
+    "success_status": 200,
+    "error_codes": [
+      "validation_error",
+      "invalid_cursor"
+    ],
+    "implemented_by": "LH-004"
+  },
+  {
+    "method": "GET",
+    "path": "/api/runs/{run_id}",
+    "summary": "Run detail",
+    "request_schema": null,
+    "response_schema": "RunDetail",
+    "content_type": "application/json",
+    "success_status": 200,
+    "error_codes": [
+      "run_not_found"
+    ],
+    "implemented_by": "LH-004"
+  },
+  {
+    "method": "GET",
+    "path": "/api/runs/{run_id}/events",
+    "summary": "SSE event stream with Last-Event-ID replay (see contracts/sse.py)",
+    "request_schema": null,
+    "response_schema": "Event",
+    "content_type": "text/event-stream",
+    "success_status": 200,
+    "error_codes": [
+      "run_not_found",
+      "invalid_last_event_id"
+    ],
+    "implemented_by": "LH-004"
+  },
+  {
+    "method": "POST",
+    "path": "/api/runs/{run_id}/cancel",
+    "summary": "Idempotent cancellation",
+    "request_schema": null,
+    "response_schema": "CancelResponse",
+    "content_type": "application/json",
+    "success_status": 200,
+    "error_codes": [
+      "run_not_found"
+    ],
+    "implemented_by": "LH-004"
+  },
+  {
+    "method": "GET",
+    "path": "/api/conversations/{conversation_id}",
+    "summary": "Read in-memory conversation context",
+    "request_schema": null,
+    "response_schema": "ConversationDetail",
+    "content_type": "application/json",
+    "success_status": 200,
+    "error_codes": [
+      "conversation_not_found"
+    ],
+    "implemented_by": "LH-004"
+  },
+  {
+    "method": "POST",
+    "path": "/api/conversations/{conversation_id}/reset",
+    "summary": "Idempotently clear conversation context and sticky model",
+    "request_schema": null,
+    "response_schema": "ConversationResetResponse",
+    "content_type": "application/json",
+    "success_status": 200,
+    "error_codes": [
+      "conversation_not_found",
+      "conversation_busy"
+    ],
+    "implemented_by": "LH-004"
+  }
+]

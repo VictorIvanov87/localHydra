@@ -1,0 +1,125 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "Loopback-only rules for provider URLs, bind hosts and resolved addresses.",
+  "urls": [
+    {
+      "url": "http://127.0.0.1:11434",
+      "valid": true
+    },
+    {
+      "url": "http://localhost:11434",
+      "valid": true
+    },
+    {
+      "url": "http://[::1]:11434",
+      "valid": true
+    },
+    {
+      "url": "http://127.5.5.5:11434",
+      "valid": true
+    },
+    {
+      "url": "https://127.0.0.1:11434",
+      "valid": true
+    },
+    {
+      "url": "http://127.0.0.1:11434/",
+      "valid": true
+    },
+    {
+      "url": "http://0.0.0.0:11434",
+      "valid": false
+    },
+    {
+      "url": "http://192.168.1.10:11434",
+      "valid": false
+    },
+    {
+      "url": "http://example.com:11434",
+      "valid": false
+    },
+    {
+      "url": "http://127.0.0.1.example.com:11434",
+      "valid": false
+    },
+    {
+      "url": "http://user:pw@127.0.0.1:11434",
+      "valid": false
+    },
+    {
+      "url": "ftp://127.0.0.1",
+      "valid": false
+    },
+    {
+      "url": "http://127.0.0.1:11434/api",
+      "valid": false
+    },
+    {
+      "url": "http://127.0.0.1:11434?x=1",
+      "valid": false
+    },
+    {
+      "url": "127.0.0.1:11434",
+      "valid": false
+    }
+  ],
+  "bind_hosts": [
+    {
+      "host": "127.0.0.1",
+      "valid": true
+    },
+    {
+      "host": "::1",
+      "valid": true
+    },
+    {
+      "host": "0.0.0.0",
+      "valid": false
+    },
+    {
+      "host": "::",
+      "valid": false
+    },
+    {
+      "host": "192.168.0.2",
+      "valid": false
+    },
+    {
+      "host": "localhost",
+      "valid": false
+    }
+  ],
+  "resolved": [
+    {
+      "addresses": [
+        "127.0.0.1"
+      ],
+      "all_loopback": true
+    },
+    {
+      "addresses": [
+        "127.0.0.1",
+        "::1"
+      ],
+      "all_loopback": true
+    },
+    {
+      "addresses": [
+        "127.0.0.1",
+        "93.184.216.34"
+      ],
+      "all_loopback": false
+    },
+    {
+      "addresses": [],
+      "all_loopback": false
+    },
+    {
+      "addresses": [
+        "not-an-ip"
+      ],
+      "all_loopback": false
+    }
+  ]
+}

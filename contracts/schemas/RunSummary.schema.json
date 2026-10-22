@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ErrorBody": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Details"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ErrorBody",
+      "type": "object"
+    },
+    "ErrorCode": {
+      "enum": [
+        "validation_error",
+        "bad_request",
+        "not_found",
+        "run_not_found",
+        "conversation_not_found",
+        "conflict",
+        "conversation_busy",
+        "invalid_cursor",
+        "invalid_last_event_id",
+        "host_not_allowed",
+        "no_eligible_model",
+        "model_unavailable",
+        "model_override_ineligible",
+        "context_too_large",
+        "target_not_loopback",
+        "provider_unreachable",
+        "provider_error",
+        "stream_interrupted",
+        "internal_error"
+      ],
+      "title": "ErrorCode",
+      "type": "string"
+    },
+    "MetricsStatus": {
+      "enum": [
+        "complete",
+        "incomplete"
+      ],
+      "title": "MetricsStatus",
+      "type": "string"
+    },
+    "Retention": {
+      "additionalProperties": false,
+      "properties": {
+        "prompts": {
+          "default": false,
+          "title": "Prompts",
+          "type": "boolean"
+        },
+        "responses": {
+          "default": false,
+          "title": "Responses",
+          "type": "boolean"
+        }
+      },
+      "title": "Retention",
+      "type": "object"
+    },
+    "RoutingMode": {
+      "enum": [
+        "auto",
+        "classifier",
+        "manual"
+      ],
+      "title": "RoutingMode",
+      "type": "string"
+    },
+    "RunStatus": {
+      "enum": [
+        "queued",
+        "routing",
+        "generating",
+        "completed",
+        "failed",
+        "cancelled",
+        "interrupted"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "pattern": "^run_[0-9a-f]{32}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "conversation_id": {
+      "pattern": "^conv_[0-9a-f]{32}$",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/RunStatus"
+    },
+    "routing_mode": {
+      "$ref": "#/$defs/RoutingMode"
+    },
+    "selected_model_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Selected Model Id"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    },
+    "finished_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Finished At"
+    },
+    "last_sequence": {
+      "minimum": 1,
+      "title": "Last Sequence",
+      "type": "integer"
+    },
+    "retention": {
+      "$ref": "#/$defs/Retention"
+    },
+    "metrics_status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MetricsStatus"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorBody"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "run_id",
+    "conversation_id",
+    "status",
+    "routing_mode",
+    "created_at",
+    "updated_at",
+    "last_sequence",
+    "retention"
+  ],
+  "title": "RunSummary",
+  "type": "object"
+}

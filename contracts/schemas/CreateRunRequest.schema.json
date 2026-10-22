@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Message": {
+      "additionalProperties": false,
+      "description": "v1 messages are text-only; image input needs a contract version bump.",
+      "properties": {
+        "role": {
+          "$ref": "#/$defs/Role"
+        },
+        "content": {
+          "maxLength": 200000,
+          "minLength": 1,
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "Message",
+      "type": "object"
+    },
+    "Role": {
+      "enum": [
+        "system",
+        "user",
+        "assistant"
+      ],
+      "title": "Role",
+      "type": "string"
+    },
+    "RoutingMode": {
+      "enum": [
+        "auto",
+        "classifier",
+        "manual"
+      ],
+      "title": "RoutingMode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "`messages` are the new messages for this turn; when conversation_id refers to an existing\nconversation the server prepends its bounded in-memory history. The last message must be\nfrom the user. model_override is a model profile id (never a raw tag or endpoint) and is\nrequired exactly when routing_mode is `manual`; it remains subject to eligibility.",
+  "properties": {
+    "conversation_id": {
+      "anyOf": [
+        {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Conversation Id"
+    },
+    "messages": {
+      "items": {
+        "$ref": "#/$defs/Message"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Messages",
+      "type": "array"
+    },
+    "routing_mode": {
+      "$ref": "#/$defs/RoutingMode",
+      "default": "auto"
+    },
+    "model_override": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Override"
+    },
+    "max_output_tokens": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Max Output Tokens"
+    }
+  },
+  "required": [
+    "messages"
+  ],
+  "title": "CreateRunRequest",
+  "type": "object"
+}

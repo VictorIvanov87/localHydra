@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ConversationConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "max_turns_in_memory": {
+          "default": 50,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Max Turns In Memory",
+          "type": "integer"
+        }
+      },
+      "title": "ConversationConfig",
+      "type": "object"
+    },
+    "LatencyProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "ttft_ms": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ttft Ms"
+        },
+        "tokens_per_second": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tokens Per Second"
+        },
+        "source": {
+          "$ref": "#/$defs/LatencySource",
+          "default": "unknown"
+        }
+      },
+      "title": "LatencyProfile",
+      "type": "object"
+    },
+    "LatencySource": {
+      "enum": [
+        "unknown",
+        "configured",
+        "measured"
+      ],
+      "title": "LatencySource",
+      "type": "string"
+    },
+    "Modality": {
+      "enum": [
+        "text",
+        "image"
+      ],
+      "title": "Modality",
+      "type": "string"
+    },
+    "ModelProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "tag": {
+          "maxLength": 200,
+          "pattern": "^[a-z0-9][a-z0-9._-]*(/[a-z0-9][a-z0-9._-]*){0,2}:[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "title": "Tag",
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Display Name"
+        },
+        "context_window": {
+          "maximum": 10000000,
+          "minimum": 512,
+          "title": "Context Window",
+          "type": "integer"
+        },
+        "max_output_tokens": {
+          "minimum": 1,
+          "title": "Max Output Tokens",
+          "type": "integer"
+        },
+        "input_modalities": {
+          "items": {
+            "$ref": "#/$defs/Modality"
+          },
+          "minItems": 1,
+          "title": "Input Modalities",
+          "type": "array"
+        },
+        "supports_tools": {
+          "default": false,
+          "title": "Supports Tools",
+          "type": "boolean"
+        },
+        "task_suitability": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TaskSuitability"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/TaskType"
+          },
+          "title": "Task Suitability",
+          "type": "object"
+        },
+        "latency": {
+          "$ref": "#/$defs/LatencyProfile"
+        }
+      },
+      "required": [
+        "id",
+        "tag",
+        "context_window",
+        "max_output_tokens"
+      ],
+      "title": "ModelProfile",
+      "type": "object"
+    },
+    "PrivacyConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "retain_prompts": {
+          "default": false,
+          "title": "Retain Prompts",
+          "type": "boolean"
+        },
+        "retain_responses": {
+          "default": false,
+          "title": "Retain Responses",
+          "type": "boolean"
+        },
+        "log_content": {
+          "default": false,
+          "title": "Log Content",
+          "type": "boolean"
+        },
+        "export_content": {
+          "default": false,
+          "title": "Export Content",
+          "type": "boolean"
+        }
+      },
+      "title": "PrivacyConfig",
+      "type": "object"
+    },
+    "ProviderConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "ollama",
+          "default": "ollama",
+          "title": "Kind",
+          "type": "string"
+        },
+        "base_url": {
+          "default": "http://127.0.0.1:11434",
+          "title": "Base Url",
+          "type": "string"
+        },
+        "follow_redirects": {
+          "const": false,
+          "default": false,
+          "title": "Follow Redirects",
+          "type": "boolean"
+        }
+      },
+      "title": "ProviderConfig",
+      "type": "object"
+    },
+    "ServerConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "host": {
+          "default": "127.0.0.1",
+          "title": "Host",
+          "type": "string"
+        },
+        "port": {
+          "default": 8765,
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        }
+      },
+      "title": "ServerConfig",
+      "type": "object"
+    },
+    "SuitabilitySource": {
+      "enum": [
+        "operator_configured",
+        "measured"
+      ],
+      "title": "SuitabilitySource",
+      "type": "string"
+    },
+    "TaskSuitability": {
+      "additionalProperties": false,
+      "properties": {
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        },
+        "source": {
+          "$ref": "#/$defs/SuitabilitySource"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "maxLength": 500,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "score",
+        "source"
+      ],
+      "title": "TaskSuitability",
+      "type": "object"
+    },
+    "TaskType": {
+      "enum": [
+        "chat",
+        "code",
+        "reasoning",
+        "summarization",
+        "extraction"
+      ],
+      "title": "TaskType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "On-disk config. Inherits the strict 4-5 unique exact-tag `models` list.",
+  "properties": {
+    "models": {
+      "items": {
+        "$ref": "#/$defs/ModelProfile"
+      },
+      "maxItems": 5,
+      "minItems": 4,
+      "title": "Models",
+      "type": "array"
+    },
+    "server": {
+      "$ref": "#/$defs/ServerConfig"
+    },
+    "provider": {
+      "$ref": "#/$defs/ProviderConfig"
+    },
+    "privacy": {
+      "$ref": "#/$defs/PrivacyConfig"
+    },
+    "conversation": {
+      "$ref": "#/$defs/ConversationConfig"
+    }
+  },
+  "required": [
+    "models"
+  ],
+  "title": "AppConfig",
+  "type": "object"
+}

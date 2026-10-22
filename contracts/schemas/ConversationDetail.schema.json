@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ConversationHistoryInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "max_turns": {
+          "minimum": 1,
+          "title": "Max Turns",
+          "type": "integer"
+        },
+        "turns": {
+          "minimum": 0,
+          "title": "Turns",
+          "type": "integer"
+        },
+        "dropped_turns": {
+          "description": "Oldest turns evicted to honor max_turns.",
+          "minimum": 0,
+          "title": "Dropped Turns",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "max_turns",
+        "turns",
+        "dropped_turns"
+      ],
+      "title": "ConversationHistoryInfo",
+      "type": "object"
+    },
+    "Message": {
+      "additionalProperties": false,
+      "description": "v1 messages are text-only; image input needs a contract version bump.",
+      "properties": {
+        "role": {
+          "$ref": "#/$defs/Role"
+        },
+        "content": {
+          "maxLength": 200000,
+          "minLength": 1,
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "Message",
+      "type": "object"
+    },
+    "Role": {
+      "enum": [
+        "system",
+        "user",
+        "assistant"
+      ],
+      "title": "Role",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "conversation_id": {
+      "pattern": "^conv_[0-9a-f]{32}$",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    },
+    "sticky_model_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sticky Model Id"
+    },
+    "active_run_id": {
+      "anyOf": [
+        {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Active Run Id"
+    },
+    "run_ids": {
+      "items": {
+        "pattern": "^run_[0-9a-f]{32}$",
+        "type": "string"
+      },
+      "maxItems": 1000,
+      "title": "Run Ids",
+      "type": "array"
+    },
+    "history": {
+      "$ref": "#/$defs/ConversationHistoryInfo"
+    },
+    "messages": {
+      "items": {
+        "$ref": "#/$defs/Message"
+      },
+      "title": "Messages",
+      "type": "array"
+    },
+    "persistence": {
+      "default": "memory_only",
+      "title": "Persistence",
+      "type": "string"
+    },
+    "lost_on_restart": {
+      "default": true,
+      "title": "Lost On Restart",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "created_at",
+    "updated_at",
+    "history",
+    "messages"
+  ],
+  "title": "ConversationDetail",
+  "type": "object"
+}

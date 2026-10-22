@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Live, app-observed values only. Load/prefill/decode durations are NOT available live.",
+  "properties": {
+    "elapsed_ms": {
+      "minimum": 0,
+      "title": "Elapsed Ms",
+      "type": "number"
+    },
+    "visible_chunks": {
+      "minimum": 0,
+      "title": "Visible Chunks",
+      "type": "integer"
+    },
+    "ttft_ms": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ttft Ms"
+    }
+  },
+  "required": [
+    "elapsed_ms",
+    "visible_chunks"
+  ],
+  "title": "ProgressMetrics",
+  "type": "object"
+}

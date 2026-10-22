@@ -1,0 +1,137 @@
+{
+  "contract_version": "1.0.0",
+  "event_schema_version": 1,
+  "schemas": {
+    "CreateRunRequest": {
+      "file": "CreateRunRequest.schema.json",
+      "mode": "validation",
+      "sha256": "f44749c7c7f8041fb6b2c10e8fcb8b646a0428dfe708ba213a037bc4c78de530"
+    },
+    "ListRunsQuery": {
+      "file": "ListRunsQuery.schema.json",
+      "mode": "validation",
+      "sha256": "2145ea6785084bf5b8d671bb1bb68d89541872d1c59b3614e3f687a0d779e4b1"
+    },
+    "AppConfig": {
+      "file": "AppConfig.schema.json",
+      "mode": "validation",
+      "sha256": "d16a0bded86799383ffafbf480754653b859a713478cfa72bd993edbe7038cc4"
+    },
+    "ModelConfig": {
+      "file": "ModelConfig.schema.json",
+      "mode": "validation",
+      "sha256": "f37bd140cd7137538a0789337882d9b1deab6cbbd915c1453c4cbf6ce8be2146"
+    },
+    "ModelProfile": {
+      "file": "ModelProfile.schema.json",
+      "mode": "validation",
+      "sha256": "0e15e721d2e10df3d4f722f21da0e4a7fc38f86ff88e93e25ec34052ebdb087d"
+    },
+    "PrivacyConfig": {
+      "file": "PrivacyConfig.schema.json",
+      "mode": "validation",
+      "sha256": "209d7f50264586f034a14fad6c069dcb794636cdb6c9bd47975c9b271cb1d04e"
+    },
+    "ErrorEnvelope": {
+      "file": "ErrorEnvelope.schema.json",
+      "mode": "serialization",
+      "sha256": "5a77b792fb8a0eb97262d7e8286c96d9cf2e3681e7f2b4432d81558000ce1c29"
+    },
+    "HealthResponse": {
+      "file": "HealthResponse.schema.json",
+      "mode": "serialization",
+      "sha256": "13886239c3a08f495af70ae36e7f871e1305d2182c2a31083ee1f3d5fefebe8f"
+    },
+    "ModelsResponse": {
+      "file": "ModelsResponse.schema.json",
+      "mode": "serialization",
+      "sha256": "876e0948e59858367ae4f52b0719910783e650ee2eeecdf516f951e26a401570"
+    },
+    "ModelStatus": {
+      "file": "ModelStatus.schema.json",
+      "mode": "serialization",
+      "sha256": "a136a2df999333b0b26b0a620f81aea4cbcd450eef169c9ace46467f401e49e9"
+    },
+    "CreateRunResponse": {
+      "file": "CreateRunResponse.schema.json",
+      "mode": "serialization",
+      "sha256": "664fc4ff855215715188383e993dd71a1912021aaf90b5563bede3417f52ca73"
+    },
+    "RunSummary": {
+      "file": "RunSummary.schema.json",
+      "mode": "serialization",
+      "sha256": "9c20bda856e9e9d8e1fa93f8d7af31460196d6e81699aec35bff6b87014ee238"
+    },
+    "RunDetail": {
+      "file": "RunDetail.schema.json",
+      "mode": "serialization",
+      "sha256": "c057fa488a68fa6bf3c0919446149acc287726431b99c04823a88511b0b2ca0a"
+    },
+    "RunPage": {
+      "file": "RunPage.schema.json",
+      "mode": "serialization",
+      "sha256": "74452940a008229f164b23e5e58e5e318f7f0613a4377879067a20bb487d6895"
+    },
+    "CancelResponse": {
+      "file": "CancelResponse.schema.json",
+      "mode": "serialization",
+      "sha256": "481e3414632e32d094c1b4bcd1a01a940116ba0bfb92d3dce039731aa8604bd6"
+    },
+    "ConversationDetail": {
+      "file": "ConversationDetail.schema.json",
+      "mode": "serialization",
+      "sha256": "4e04816ff4074bf4c269f336f4ae65f39807c3cda656fec9bfbbc0737ed16e3f"
+    },
+    "ConversationResetResponse": {
+      "file": "ConversationResetResponse.schema.json",
+      "mode": "serialization",
+      "sha256": "f2c3fb39c12260f32314d1784009d7ea62a8613f15142b1028517e9560f6f34a"
+    },
+    "Event": {
+      "file": "Event.schema.json",
+      "mode": "serialization",
+      "sha256": "ac059d231a341d9c5db3df47ae08a8d4419f812a77f3f868224583e19409731d"
+    },
+    "RoutingRequirements": {
+      "file": "RoutingRequirements.schema.json",
+      "mode": "serialization",
+      "sha256": "77565b91a374f6019a4740fff598658e00cff67a2b6a76ec7b31bc3461fa3746"
+    },
+    "RoutingDecision": {
+      "file": "RoutingDecision.schema.json",
+      "mode": "serialization",
+      "sha256": "51d252c3b0358e4c610754ba47e2432d4dc9a8f5ded91b99f458022d64189c99"
+    },
+    "ContextEstimate": {
+      "file": "ContextEstimate.schema.json",
+      "mode": "serialization",
+      "sha256": "2dd70b3f125ec04efefbcb8b7cc1574c6813400839f946bf241f941d8ad37e04"
+    },
+    "ContextFit": {
+      "file": "ContextFit.schema.json",
+      "mode": "serialization",
+      "sha256": "a37d692457a75521915de2aef8d8506a1c22df316557591524d9bf993ede5ef4"
+    },
+    "RawOllamaMetrics": {
+      "file": "RawOllamaMetrics.schema.json",
+      "mode": "serialization",
+      "sha256": "342afe39d6d9016cf41852abf2fd84403ad781c7fe288a18a8416b0c684d9868"
+    },
+    "NormalizedMetrics": {
+      "file": "NormalizedMetrics.schema.json",
+      "mode": "serialization",
+      "sha256": "bb11004d0129ca2cbe8ac6d5285af647eecfb519304eba38327f912f7e27d5bd"
+    },
+    "ProgressMetrics": {
+      "file": "ProgressMetrics.schema.json",
+      "mode": "serialization",
+      "sha256": "9b8eed6aceb3f477f2afff2051f20dec86dfb3df3f327502f445382e7278ef13"
+    },
+    "Endpoints": {
+      "file": "Endpoints.schema.json",
+      "mode": "serialization",
+      "sha256": "47ece57b61afbf0f3f59b3efbd7809f7dc26246ff9a63c50acff2fe98c1f429b"
+    }
+  },
+  "endpoints_sha256": "da762bf9b7cf765d3b1746c96e3ae40e8c582cb36b28c9c064ff9ee041650bdf"
+}

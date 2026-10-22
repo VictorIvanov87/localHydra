@@ -1,0 +1,113 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "Context estimation method ascii3_nonascii1_v1 (hand-computed expectations).",
+  "estimates": [
+    {
+      "name": "one ascii message (25 chars): ceil(25/3)=9 +8 +16 = 33; ceil(33*1.25)=42",
+      "contents": [
+        "Write a haiku about rain."
+      ],
+      "point_tokens": 33,
+      "upper_bound_tokens": 42
+    },
+    {
+      "name": "no messages: only fixed overhead 16 -> 20",
+      "contents": [],
+      "point_tokens": 16,
+      "upper_bound_tokens": 20
+    },
+    {
+      "name": "non-ASCII counts one token per code point: 3 +8 +16 = 27 -> 34",
+      "contents": [
+        "日本語"
+      ],
+      "point_tokens": 27,
+      "upper_bound_tokens": 34
+    },
+    {
+      "name": "mixed: 3 ascii (1) + 2 non-ascii (2) = 3; +16 +16 = 35 -> 44",
+      "contents": [
+        "abc",
+        "日本"
+      ],
+      "point_tokens": 35,
+      "upper_bound_tokens": 44
+    },
+    {
+      "name": "300 ascii chars: 100 +8 +16 = 124 -> 155",
+      "contents": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "point_tokens": 124,
+      "upper_bound_tokens": 155
+    }
+  ],
+  "fits": [
+    {
+      "name": "fits with default reserve",
+      "context_window": 8192,
+      "max_output_tokens": 1024,
+      "upper_bound_tokens": 42,
+      "requested_max_output_tokens": null,
+      "expected": {
+        "fits": true,
+        "output_reserve": 1024,
+        "required_tokens": 1066,
+        "failure": null
+      }
+    },
+    {
+      "name": "exactly at the window fits",
+      "context_window": 1024,
+      "max_output_tokens": 512,
+      "upper_bound_tokens": 512,
+      "requested_max_output_tokens": null,
+      "expected": {
+        "fits": true,
+        "output_reserve": 512,
+        "required_tokens": 1024,
+        "failure": null
+      }
+    },
+    {
+      "name": "one token over does not fit",
+      "context_window": 1024,
+      "max_output_tokens": 512,
+      "upper_bound_tokens": 513,
+      "requested_max_output_tokens": null,
+      "expected": {
+        "fits": false,
+        "output_reserve": 512,
+        "required_tokens": 1025,
+        "failure": "context_exceeded"
+      }
+    },
+    {
+      "name": "smaller requested output frees room",
+      "context_window": 1024,
+      "max_output_tokens": 512,
+      "upper_bound_tokens": 600,
+      "requested_max_output_tokens": 256,
+      "expected": {
+        "fits": true,
+        "output_reserve": 256,
+        "required_tokens": 856,
+        "failure": null
+      }
+    },
+    {
+      "name": "requested output above profile budget is rejected, not clamped",
+      "context_window": 8192,
+      "max_output_tokens": 1024,
+      "upper_bound_tokens": 42,
+      "requested_max_output_tokens": 2048,
+      "expected": {
+        "fits": false,
+        "output_reserve": 2048,
+        "required_tokens": 2090,
+        "failure": "output_budget_exceeded"
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "RunStatus": {
+      "enum": [
+        "queued",
+        "routing",
+        "generating",
+        "completed",
+        "failed",
+        "cancelled",
+        "interrupted"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "pattern": "^run_[0-9a-f]{32}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "conversation_id": {
+      "pattern": "^conv_[0-9a-f]{32}$",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/RunStatus",
+      "default": "queued"
+    },
+    "events_url": {
+      "title": "Events Url",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "conversation_id",
+    "events_url",
+    "created_at"
+  ],
+  "title": "CreateRunResponse",
+  "type": "object"
+}

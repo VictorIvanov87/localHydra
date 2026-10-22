@@ -1,0 +1,1004 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "CandidateEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "title": "Model Id",
+          "type": "string"
+        },
+        "tag": {
+          "maxLength": 200,
+          "pattern": "^[a-z0-9][a-z0-9._-]*(/[a-z0-9][a-z0-9._-]*){0,2}:[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "title": "Tag",
+          "type": "string"
+        },
+        "eligible": {
+          "title": "Eligible",
+          "type": "boolean"
+        },
+        "rejections": {
+          "items": {
+            "$ref": "#/$defs/RejectionReason"
+          },
+          "title": "Rejections",
+          "type": "array"
+        },
+        "context_fit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ContextFit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "components": {
+          "items": {
+            "$ref": "#/$defs/RankingComponent"
+          },
+          "title": "Components",
+          "type": "array"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score"
+        }
+      },
+      "required": [
+        "model_id",
+        "tag",
+        "eligible"
+      ],
+      "title": "CandidateEvaluation",
+      "type": "object"
+    },
+    "ContextEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "default": "ascii3_nonascii1_v1",
+          "title": "Method",
+          "type": "string"
+        },
+        "message_count": {
+          "minimum": 0,
+          "title": "Message Count",
+          "type": "integer"
+        },
+        "point_tokens": {
+          "minimum": 0,
+          "title": "Point Tokens",
+          "type": "integer"
+        },
+        "upper_bound_tokens": {
+          "minimum": 0,
+          "title": "Upper Bound Tokens",
+          "type": "integer"
+        },
+        "margin": {
+          "default": 1.25,
+          "title": "Margin",
+          "type": "number"
+        },
+        "uncertainty": {
+          "default": "Heuristic upper bound (x1.25 margin), not a tokenizer; may under-estimate unusual inputs. Provider-reported prompt_tokens are authoritative after generation.",
+          "title": "Uncertainty",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_count",
+        "point_tokens",
+        "upper_bound_tokens"
+      ],
+      "title": "ContextEstimate",
+      "type": "object"
+    },
+    "ContextFit": {
+      "additionalProperties": false,
+      "properties": {
+        "fits": {
+          "title": "Fits",
+          "type": "boolean"
+        },
+        "context_window": {
+          "minimum": 1,
+          "title": "Context Window",
+          "type": "integer"
+        },
+        "upper_bound_tokens": {
+          "minimum": 0,
+          "title": "Upper Bound Tokens",
+          "type": "integer"
+        },
+        "output_reserve": {
+          "minimum": 0,
+          "title": "Output Reserve",
+          "type": "integer"
+        },
+        "required_tokens": {
+          "minimum": 0,
+          "title": "Required Tokens",
+          "type": "integer"
+        },
+        "failure": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FitFailure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "fits",
+        "context_window",
+        "upper_bound_tokens",
+        "output_reserve",
+        "required_tokens"
+      ],
+      "title": "ContextFit",
+      "type": "object"
+    },
+    "ErrorBody": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Details"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ErrorBody",
+      "type": "object"
+    },
+    "ErrorCode": {
+      "enum": [
+        "validation_error",
+        "bad_request",
+        "not_found",
+        "run_not_found",
+        "conversation_not_found",
+        "conflict",
+        "conversation_busy",
+        "invalid_cursor",
+        "invalid_last_event_id",
+        "host_not_allowed",
+        "no_eligible_model",
+        "model_unavailable",
+        "model_override_ineligible",
+        "context_too_large",
+        "target_not_loopback",
+        "provider_unreachable",
+        "provider_error",
+        "stream_interrupted",
+        "internal_error"
+      ],
+      "title": "ErrorCode",
+      "type": "string"
+    },
+    "FitFailure": {
+      "enum": [
+        "context_exceeded",
+        "output_budget_exceeded"
+      ],
+      "title": "FitFailure",
+      "type": "string"
+    },
+    "IncompleteReason": {
+      "enum": [
+        "no_final_chunk",
+        "partial_final_chunk",
+        "no_visible_token"
+      ],
+      "title": "IncompleteReason",
+      "type": "string"
+    },
+    "Message": {
+      "additionalProperties": false,
+      "description": "v1 messages are text-only; image input needs a contract version bump.",
+      "properties": {
+        "role": {
+          "$ref": "#/$defs/Role"
+        },
+        "content": {
+          "maxLength": 200000,
+          "minLength": 1,
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "Message",
+      "type": "object"
+    },
+    "MetricsCompleteness": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/MetricsStatus"
+        },
+        "missing": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing",
+          "type": "array"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IncompleteReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "MetricsCompleteness",
+      "type": "object"
+    },
+    "MetricsStatus": {
+      "enum": [
+        "complete",
+        "incomplete"
+      ],
+      "title": "MetricsStatus",
+      "type": "string"
+    },
+    "Modality": {
+      "enum": [
+        "text",
+        "image"
+      ],
+      "title": "Modality",
+      "type": "string"
+    },
+    "NormalizedMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "routing_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Routing Ms"
+        },
+        "wall_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Ms"
+        },
+        "ttft_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ttft Ms"
+        },
+        "load_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Load Ms"
+        },
+        "prompt_eval_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Eval Ms"
+        },
+        "generation_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generation Ms"
+        },
+        "ollama_total_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ollama Total Ms"
+        },
+        "prompt_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Tokens"
+        },
+        "generated_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated Tokens"
+        },
+        "prompt_tokens_per_second": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Tokens Per Second"
+        },
+        "generation_tokens_per_second": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generation Tokens Per Second"
+        },
+        "raw_ollama": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RawOllamaMetrics"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "completeness": {
+          "$ref": "#/$defs/MetricsCompleteness"
+        }
+      },
+      "required": [
+        "completeness"
+      ],
+      "title": "NormalizedMetrics",
+      "type": "object"
+    },
+    "RankingComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "weight": {
+          "title": "Weight",
+          "type": "number"
+        },
+        "contribution": {
+          "title": "Contribution",
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "weight",
+        "contribution"
+      ],
+      "title": "RankingComponent",
+      "type": "object"
+    },
+    "RawOllamaMetrics": {
+      "additionalProperties": false,
+      "description": "Fields of Ollama's final stream chunk, verbatim (nanoseconds / counts). All optional.",
+      "properties": {
+        "total_duration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Duration"
+        },
+        "load_duration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Load Duration"
+        },
+        "prompt_eval_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Eval Count"
+        },
+        "prompt_eval_duration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Eval Duration"
+        },
+        "eval_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eval Count"
+        },
+        "eval_duration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eval Duration"
+        }
+      },
+      "title": "RawOllamaMetrics",
+      "type": "object"
+    },
+    "RejectionReason": {
+      "enum": [
+        "disabled",
+        "not_installed",
+        "availability_unknown",
+        "modality_unsupported",
+        "tools_unsupported",
+        "context_exceeded",
+        "output_budget_exceeded"
+      ],
+      "title": "RejectionReason",
+      "type": "string"
+    },
+    "RequirementsSource": {
+      "enum": [
+        "rules",
+        "classifier",
+        "operator"
+      ],
+      "title": "RequirementsSource",
+      "type": "string"
+    },
+    "Retention": {
+      "additionalProperties": false,
+      "properties": {
+        "prompts": {
+          "default": false,
+          "title": "Prompts",
+          "type": "boolean"
+        },
+        "responses": {
+          "default": false,
+          "title": "Responses",
+          "type": "boolean"
+        }
+      },
+      "title": "Retention",
+      "type": "object"
+    },
+    "Role": {
+      "enum": [
+        "system",
+        "user",
+        "assistant"
+      ],
+      "title": "Role",
+      "type": "string"
+    },
+    "RoutingDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "mode": {
+          "$ref": "#/$defs/RoutingMode"
+        },
+        "requirements": {
+          "$ref": "#/$defs/RoutingRequirements"
+        },
+        "context_estimate": {
+          "$ref": "#/$defs/ContextEstimate"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/CandidateEvaluation"
+          },
+          "minItems": 1,
+          "title": "Candidates",
+          "type": "array"
+        },
+        "outcome": {
+          "$ref": "#/$defs/RoutingOutcome"
+        },
+        "selected_model_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selected Model Id"
+        },
+        "reasons": {
+          "items": {
+            "$ref": "#/$defs/RoutingReason"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "override_applied": {
+          "default": false,
+          "title": "Override Applied",
+          "type": "boolean"
+        },
+        "sticky_applied": {
+          "default": false,
+          "title": "Sticky Applied",
+          "type": "boolean"
+        },
+        "decided_at": {
+          "format": "date-time",
+          "title": "Decided At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy_version",
+        "mode",
+        "requirements",
+        "context_estimate",
+        "candidates",
+        "outcome",
+        "decided_at"
+      ],
+      "title": "RoutingDecision",
+      "type": "object"
+    },
+    "RoutingMode": {
+      "enum": [
+        "auto",
+        "classifier",
+        "manual"
+      ],
+      "title": "RoutingMode",
+      "type": "string"
+    },
+    "RoutingOutcome": {
+      "enum": [
+        "selected",
+        "no_eligible_model"
+      ],
+      "title": "RoutingOutcome",
+      "type": "string"
+    },
+    "RoutingReason": {
+      "enum": [
+        "manual_override",
+        "sticky_conversation",
+        "highest_score",
+        "only_eligible_candidate",
+        "tie_break_profile_order"
+      ],
+      "title": "RoutingReason",
+      "type": "string"
+    },
+    "RoutingRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "task_type": {
+          "$ref": "#/$defs/TaskType"
+        },
+        "required_modalities": {
+          "items": {
+            "$ref": "#/$defs/Modality"
+          },
+          "title": "Required Modalities",
+          "type": "array"
+        },
+        "requires_tools": {
+          "default": false,
+          "title": "Requires Tools",
+          "type": "boolean"
+        },
+        "source": {
+          "$ref": "#/$defs/RequirementsSource"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence"
+        },
+        "classifier_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Classifier Id"
+        }
+      },
+      "required": [
+        "task_type",
+        "source"
+      ],
+      "title": "RoutingRequirements",
+      "type": "object"
+    },
+    "RunStatus": {
+      "enum": [
+        "queued",
+        "routing",
+        "generating",
+        "completed",
+        "failed",
+        "cancelled",
+        "interrupted"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    },
+    "TaskType": {
+      "enum": [
+        "chat",
+        "code",
+        "reasoning",
+        "summarization",
+        "extraction"
+      ],
+      "title": "TaskType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "pattern": "^run_[0-9a-f]{32}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "conversation_id": {
+      "pattern": "^conv_[0-9a-f]{32}$",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/RunStatus"
+    },
+    "routing_mode": {
+      "$ref": "#/$defs/RoutingMode"
+    },
+    "selected_model_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Selected Model Id"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    },
+    "finished_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Finished At"
+    },
+    "last_sequence": {
+      "minimum": 1,
+      "title": "Last Sequence",
+      "type": "integer"
+    },
+    "retention": {
+      "$ref": "#/$defs/Retention"
+    },
+    "metrics_status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MetricsStatus"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorBody"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "model_override": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Override"
+    },
+    "routing": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RoutingDecision"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "metrics": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NormalizedMetrics"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "cancel_requested": {
+      "default": false,
+      "title": "Cancel Requested",
+      "type": "boolean"
+    },
+    "messages": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Message"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Messages"
+    },
+    "response_text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Response Text"
+    },
+    "transcript_replay_available": {
+      "default": false,
+      "title": "Transcript Replay Available",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "run_id",
+    "conversation_id",
+    "status",
+    "routing_mode",
+    "created_at",
+    "updated_at",
+    "last_sequence",
+    "retention"
+  ],
+  "title": "RunDetail",
+  "type": "object"
+}

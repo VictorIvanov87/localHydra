@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Availability": {
+      "enum": [
+        "available",
+        "unavailable",
+        "unknown"
+      ],
+      "title": "Availability",
+      "type": "string"
+    },
+    "LatencyProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "ttft_ms": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ttft Ms"
+        },
+        "tokens_per_second": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tokens Per Second"
+        },
+        "source": {
+          "$ref": "#/$defs/LatencySource",
+          "default": "unknown"
+        }
+      },
+      "title": "LatencyProfile",
+      "type": "object"
+    },
+    "LatencySource": {
+      "enum": [
+        "unknown",
+        "configured",
+        "measured"
+      ],
+      "title": "LatencySource",
+      "type": "string"
+    },
+    "LoadedState": {
+      "enum": [
+        "loaded",
+        "not_loaded",
+        "unknown"
+      ],
+      "title": "LoadedState",
+      "type": "string"
+    },
+    "Modality": {
+      "enum": [
+        "text",
+        "image"
+      ],
+      "title": "Modality",
+      "type": "string"
+    },
+    "ModelProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "tag": {
+          "maxLength": 200,
+          "pattern": "^[a-z0-9][a-z0-9._-]*(/[a-z0-9][a-z0-9._-]*){0,2}:[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "title": "Tag",
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Display Name"
+        },
+        "context_window": {
+          "maximum": 10000000,
+          "minimum": 512,
+          "title": "Context Window",
+          "type": "integer"
+        },
+        "max_output_tokens": {
+          "minimum": 1,
+          "title": "Max Output Tokens",
+          "type": "integer"
+        },
+        "input_modalities": {
+          "items": {
+            "$ref": "#/$defs/Modality"
+          },
+          "minItems": 1,
+          "title": "Input Modalities",
+          "type": "array"
+        },
+        "supports_tools": {
+          "default": false,
+          "title": "Supports Tools",
+          "type": "boolean"
+        },
+        "task_suitability": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TaskSuitability"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/TaskType"
+          },
+          "title": "Task Suitability",
+          "type": "object"
+        },
+        "latency": {
+          "$ref": "#/$defs/LatencyProfile"
+        }
+      },
+      "required": [
+        "id",
+        "tag",
+        "context_window",
+        "max_output_tokens"
+      ],
+      "title": "ModelProfile",
+      "type": "object"
+    },
+    "SuitabilitySource": {
+      "enum": [
+        "operator_configured",
+        "measured"
+      ],
+      "title": "SuitabilitySource",
+      "type": "string"
+    },
+    "TaskSuitability": {
+      "additionalProperties": false,
+      "properties": {
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        },
+        "source": {
+          "$ref": "#/$defs/SuitabilitySource"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "maxLength": 500,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "score",
+        "source"
+      ],
+      "title": "TaskSuitability",
+      "type": "object"
+    },
+    "TaskType": {
+      "enum": [
+        "chat",
+        "code",
+        "reasoning",
+        "summarization",
+        "extraction"
+      ],
+      "title": "TaskType",
+      "type": "string"
+    },
+    "UnavailableReason": {
+      "enum": [
+        "not_installed",
+        "disabled",
+        "provider_not_probed"
+      ],
+      "title": "UnavailableReason",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile": {
+      "$ref": "#/$defs/ModelProfile"
+    },
+    "availability": {
+      "$ref": "#/$defs/Availability"
+    },
+    "availability_reason": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/UnavailableReason"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "loaded_state": {
+      "$ref": "#/$defs/LoadedState",
+      "default": "unknown"
+    },
+    "observed_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Observed At"
+    }
+  },
+  "required": [
+    "profile",
+    "availability"
+  ],
+  "title": "ModelStatus",
+  "type": "object"
+}

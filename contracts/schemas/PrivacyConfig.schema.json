@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "retain_prompts": {
+      "default": false,
+      "title": "Retain Prompts",
+      "type": "boolean"
+    },
+    "retain_responses": {
+      "default": false,
+      "title": "Retain Responses",
+      "type": "boolean"
+    },
+    "log_content": {
+      "default": false,
+      "title": "Log Content",
+      "type": "boolean"
+    },
+    "export_content": {
+      "default": false,
+      "title": "Export Content",
+      "type": "boolean"
+    }
+  },
+  "title": "PrivacyConfig",
+  "type": "object"
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "CancelEffect": {
+      "enum": [
+        "cancelled",
+        "cancel_requested",
+        "already_terminal"
+      ],
+      "title": "CancelEffect",
+      "type": "string"
+    },
+    "RunStatus": {
+      "enum": [
+        "queued",
+        "routing",
+        "generating",
+        "completed",
+        "failed",
+        "cancelled",
+        "interrupted"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "pattern": "^run_[0-9a-f]{32}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/RunStatus"
+    },
+    "cancel_effect": {
+      "$ref": "#/$defs/CancelEffect"
+    }
+  },
+  "required": [
+    "run_id",
+    "status",
+    "cancel_effect"
+  ],
+  "title": "CancelResponse",
+  "type": "object"
+}

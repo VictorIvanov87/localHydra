@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "conversation_id": {
+      "pattern": "^conv_[0-9a-f]{32}$",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "reset": {
+      "default": true,
+      "title": "Reset",
+      "type": "boolean"
+    },
+    "cleared_turns": {
+      "minimum": 0,
+      "title": "Cleared Turns",
+      "type": "integer"
+    },
+    "runs_retained": {
+      "default": true,
+      "title": "Runs Retained",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "cleared_turns"
+  ],
+  "title": "ConversationResetResponse",
+  "type": "object"
+}

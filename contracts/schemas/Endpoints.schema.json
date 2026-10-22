@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Endpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "enum": [
+            "GET",
+            "POST"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "request_schema": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Body (POST) or query (GET) schema name.",
+          "title": "Request Schema"
+        },
+        "response_schema": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Response Schema"
+        },
+        "content_type": {
+          "default": "application/json",
+          "title": "Content Type",
+          "type": "string"
+        },
+        "success_status": {
+          "default": 200,
+          "title": "Success Status",
+          "type": "integer"
+        },
+        "error_codes": {
+          "items": {
+            "$ref": "#/$defs/ErrorCode"
+          },
+          "title": "Error Codes",
+          "type": "array"
+        },
+        "implemented_by": {
+          "description": "Ticket that implements the handler.",
+          "title": "Implemented By",
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "path",
+        "summary",
+        "implemented_by"
+      ],
+      "title": "Endpoint",
+      "type": "object"
+    },
+    "ErrorCode": {
+      "enum": [
+        "validation_error",
+        "bad_request",
+        "not_found",
+        "run_not_found",
+        "conversation_not_found",
+        "conflict",
+        "conversation_busy",
+        "invalid_cursor",
+        "invalid_last_event_id",
+        "host_not_allowed",
+        "no_eligible_model",
+        "model_unavailable",
+        "model_override_ineligible",
+        "context_too_large",
+        "target_not_loopback",
+        "provider_unreachable",
+        "provider_error",
+        "stream_interrupted",
+        "internal_error"
+      ],
+      "title": "ErrorCode",
+      "type": "string"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/Endpoint"
+  },
+  "type": "array",
+  "title": "Endpoints"
+}

@@ -1,0 +1,2550 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "Model profiles, validated config, privacy defaults, model availability.",
+  "cases": [
+    {
+      "name": "profile: valid text model",
+      "schema": "ModelProfile",
+      "valid": true,
+      "data": {
+        "id": "model-1",
+        "tag": "example/model-1:synthetic",
+        "enabled": true,
+        "display_name": "Synthetic model 1",
+        "context_window": 8192,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "text"
+        ],
+        "supports_tools": false,
+        "task_suitability": {
+          "chat": {
+            "score": 0.5,
+            "source": "operator_configured",
+            "note": null
+          },
+          "code": {
+            "score": 0.25,
+            "source": "operator_configured",
+            "note": null
+          }
+        },
+        "latency": {
+          "ttft_ms": 800.0,
+          "tokens_per_second": 20.0,
+          "source": "configured"
+        }
+      }
+    },
+    {
+      "name": "profile: valid vision + tools, nullable latency",
+      "schema": "ModelProfile",
+      "valid": true,
+      "data": {
+        "id": "model-2",
+        "tag": "example/model-2:synthetic",
+        "enabled": true,
+        "display_name": "Synthetic model 2",
+        "context_window": 8192,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "supports_tools": true,
+        "task_suitability": {},
+        "latency": {
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "source": "unknown"
+        }
+      }
+    },
+    {
+      "name": "profile: tag without explicit :tag is not exact",
+      "schema": "ModelProfile",
+      "valid": false,
+      "data": {
+        "id": "model-1",
+        "tag": "example/model-1",
+        "enabled": true,
+        "display_name": "Synthetic model 1",
+        "context_window": 8192,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "text"
+        ],
+        "supports_tools": false,
+        "task_suitability": {
+          "chat": {
+            "score": 0.5,
+            "source": "operator_configured",
+            "note": null
+          },
+          "code": {
+            "score": 0.25,
+            "source": "operator_configured",
+            "note": null
+          }
+        },
+        "latency": {
+          "ttft_ms": 800.0,
+          "tokens_per_second": 20.0,
+          "source": "configured"
+        }
+      }
+    },
+    {
+      "name": "profile: uppercase id rejected",
+      "schema": "ModelProfile",
+      "valid": false,
+      "data": {
+        "id": "Model-1",
+        "tag": "example/model-1:synthetic",
+        "enabled": true,
+        "display_name": "Synthetic model 1",
+        "context_window": 8192,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "text"
+        ],
+        "supports_tools": false,
+        "task_suitability": {
+          "chat": {
+            "score": 0.5,
+            "source": "operator_configured",
+            "note": null
+          },
+          "code": {
+            "score": 0.25,
+            "source": "operator_configured",
+            "note": null
+          }
+        },
+        "latency": {
+          "ttft_ms": 800.0,
+          "tokens_per_second": 20.0,
+          "source": "configured"
+        }
+      }
+    },
+    {
+      "name": "profile: score above 1 rejected",
+      "schema": "ModelProfile",
+      "valid": false,
+      "data": {
+        "id": "model-1",
+        "tag": "example/model-1:synthetic",
+        "enabled": true,
+        "display_name": "Synthetic model 1",
+        "context_window": 8192,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "text"
+        ],
+        "supports_tools": false,
+        "task_suitability": {
+          "chat": {
+            "score": 1.5,
+            "source": "operator_configured",
+            "note": null
+          }
+        },
+        "latency": {
+          "ttft_ms": 800.0,
+          "tokens_per_second": 20.0,
+          "source": "configured"
+        }
+      }
+    },
+    {
+      "name": "profile: max_output_tokens must be < context_window",
+      "schema": "ModelProfile",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "id": "model-1",
+        "tag": "example/model-1:synthetic",
+        "enabled": true,
+        "display_name": "Synthetic model 1",
+        "context_window": 1024,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "text"
+        ],
+        "supports_tools": false,
+        "task_suitability": {
+          "chat": {
+            "score": 0.5,
+            "source": "operator_configured",
+            "note": null
+          },
+          "code": {
+            "score": 0.25,
+            "source": "operator_configured",
+            "note": null
+          }
+        },
+        "latency": {
+          "ttft_ms": 800.0,
+          "tokens_per_second": 20.0,
+          "source": "configured"
+        }
+      }
+    },
+    {
+      "name": "profile: modalities must include text",
+      "schema": "ModelProfile",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "id": "model-1",
+        "tag": "example/model-1:synthetic",
+        "enabled": true,
+        "display_name": "Synthetic model 1",
+        "context_window": 8192,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "image"
+        ],
+        "supports_tools": false,
+        "task_suitability": {
+          "chat": {
+            "score": 0.5,
+            "source": "operator_configured",
+            "note": null
+          },
+          "code": {
+            "score": 0.25,
+            "source": "operator_configured",
+            "note": null
+          }
+        },
+        "latency": {
+          "ttft_ms": 800.0,
+          "tokens_per_second": 20.0,
+          "source": "configured"
+        }
+      }
+    },
+    {
+      "name": "profile: latency values need configured/measured source",
+      "schema": "ModelProfile",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "id": "model-1",
+        "tag": "example/model-1:synthetic",
+        "enabled": true,
+        "display_name": "Synthetic model 1",
+        "context_window": 8192,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "text"
+        ],
+        "supports_tools": false,
+        "task_suitability": {
+          "chat": {
+            "score": 0.5,
+            "source": "operator_configured",
+            "note": null
+          },
+          "code": {
+            "score": 0.25,
+            "source": "operator_configured",
+            "note": null
+          }
+        },
+        "latency": {
+          "ttft_ms": 5.0,
+          "tokens_per_second": null,
+          "source": "unknown"
+        }
+      }
+    },
+    {
+      "name": "profile: no download/pull field exists",
+      "schema": "ModelProfile",
+      "valid": false,
+      "data": {
+        "id": "model-1",
+        "tag": "example/model-1:synthetic",
+        "enabled": true,
+        "display_name": "Synthetic model 1",
+        "context_window": 8192,
+        "max_output_tokens": 1024,
+        "input_modalities": [
+          "text"
+        ],
+        "supports_tools": false,
+        "task_suitability": {
+          "chat": {
+            "score": 0.5,
+            "source": "operator_configured",
+            "note": null
+          },
+          "code": {
+            "score": 0.25,
+            "source": "operator_configured",
+            "note": null
+          }
+        },
+        "latency": {
+          "ttft_ms": 800.0,
+          "tokens_per_second": 20.0,
+          "source": "configured"
+        },
+        "pull_if_missing": true
+      }
+    },
+    {
+      "name": "config: valid 4 models (also config/localhydra.example.json)",
+      "schema": "AppConfig",
+      "valid": true,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: valid 5 models",
+      "schema": "AppConfig",
+      "valid": true,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-5",
+            "tag": "example/model-5:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 5",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: 3 models rejected",
+      "schema": "AppConfig",
+      "valid": false,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: 6 models rejected",
+      "schema": "AppConfig",
+      "valid": false,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-5",
+            "tag": "example/model-5:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 5",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-6",
+            "tag": "example/model-6:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 6",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: duplicate tag (case-insensitive) rejected",
+      "schema": "AppConfig",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-1:SYNTHETIC",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: duplicate id rejected",
+      "schema": "AppConfig",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-1",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: non-loopback provider rejected",
+      "schema": "AppConfig",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://example.com:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: provider URL with path rejected",
+      "schema": "AppConfig",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434/v1",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: redirects can never be enabled",
+      "schema": "AppConfig",
+      "valid": false,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": true
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: non-loopback bind host rejected",
+      "schema": "AppConfig",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "server": {
+          "host": "0.0.0.0",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "config: unknown key rejected (no auto-pull switch)",
+      "schema": "AppConfig",
+      "valid": false,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": false
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ],
+        "pull_missing_models": true
+      }
+    },
+    {
+      "name": "config: export_content needs retention",
+      "schema": "AppConfig",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "server": {
+          "host": "127.0.0.1",
+          "port": 8765
+        },
+        "provider": {
+          "kind": "ollama",
+          "base_url": "http://127.0.0.1:11434",
+          "follow_redirects": false
+        },
+        "privacy": {
+          "retain_prompts": false,
+          "retain_responses": false,
+          "log_content": false,
+          "export_content": true
+        },
+        "conversation": {
+          "max_turns_in_memory": 50
+        },
+        "models": [
+          {
+            "id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 1",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 2",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 3",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          },
+          {
+            "id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "enabled": true,
+            "display_name": "Synthetic model 4",
+            "context_window": 8192,
+            "max_output_tokens": 1024,
+            "input_modalities": [
+              "text"
+            ],
+            "supports_tools": false,
+            "task_suitability": {
+              "chat": {
+                "score": 0.5,
+                "source": "operator_configured",
+                "note": null
+              },
+              "code": {
+                "score": 0.25,
+                "source": "operator_configured",
+                "note": null
+              }
+            },
+            "latency": {
+              "ttft_ms": 800.0,
+              "tokens_per_second": 20.0,
+              "source": "configured"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "privacy: all defaults off",
+      "schema": "PrivacyConfig",
+      "valid": true,
+      "data": {
+        "retain_prompts": false,
+        "retain_responses": false,
+        "log_content": false,
+        "export_content": false
+      }
+    },
+    {
+      "name": "privacy: opt in to response retention",
+      "schema": "PrivacyConfig",
+      "valid": true,
+      "data": {
+        "retain_prompts": false,
+        "retain_responses": true,
+        "log_content": false,
+        "export_content": false
+      }
+    },
+    {
+      "name": "privacy: export without retention rejected",
+      "schema": "PrivacyConfig",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "retain_prompts": false,
+        "retain_responses": false,
+        "log_content": false,
+        "export_content": true
+      }
+    },
+    {
+      "name": "models response: unconfigured (no config file)",
+      "schema": "ModelsResponse",
+      "valid": true,
+      "data": {
+        "configured": false,
+        "provider_probe": "not_probed",
+        "auto_download": false,
+        "models": []
+      }
+    },
+    {
+      "name": "models response: configured but provider not probed -> availability unknown",
+      "schema": "ModelsResponse",
+      "valid": true,
+      "data": {
+        "configured": true,
+        "provider_probe": "not_probed",
+        "auto_download": false,
+        "models": [
+          {
+            "profile": {
+              "id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 1",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "unknown",
+            "availability_reason": "provider_not_probed",
+            "loaded_state": "unknown",
+            "observed_at": null
+          },
+          {
+            "profile": {
+              "id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 2",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "unknown",
+            "availability_reason": "provider_not_probed",
+            "loaded_state": "unknown",
+            "observed_at": null
+          },
+          {
+            "profile": {
+              "id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 3",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "unknown",
+            "availability_reason": "provider_not_probed",
+            "loaded_state": "unknown",
+            "observed_at": null
+          },
+          {
+            "profile": {
+              "id": "model-4",
+              "tag": "example/model-4:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 4",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "unknown",
+            "availability_reason": "provider_not_probed",
+            "loaded_state": "unknown",
+            "observed_at": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "models response: probed, missing model is unavailable (never downloaded)",
+      "schema": "ModelsResponse",
+      "valid": true,
+      "data": {
+        "configured": true,
+        "provider_probe": "ok",
+        "auto_download": false,
+        "models": [
+          {
+            "profile": {
+              "id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 1",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "available",
+            "availability_reason": null,
+            "loaded_state": "loaded",
+            "observed_at": "2026-10-22T10:00:00.000Z"
+          },
+          {
+            "profile": {
+              "id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 2",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "available",
+            "availability_reason": null,
+            "loaded_state": "not_loaded",
+            "observed_at": "2026-10-22T10:00:00.000Z"
+          },
+          {
+            "profile": {
+              "id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 3",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "unavailable",
+            "availability_reason": "not_installed",
+            "loaded_state": "not_loaded",
+            "observed_at": "2026-10-22T10:00:00.000Z"
+          },
+          {
+            "profile": {
+              "id": "model-4",
+              "tag": "example/model-4:synthetic",
+              "enabled": false,
+              "display_name": "Synthetic model 4",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "unavailable",
+            "availability_reason": "disabled",
+            "loaded_state": "not_loaded",
+            "observed_at": "2026-10-22T10:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "name": "models response: auto_download true is a contract violation",
+      "schema": "ModelsResponse",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "configured": true,
+        "provider_probe": "ok",
+        "auto_download": true,
+        "models": [
+          {
+            "profile": {
+              "id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 1",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "available",
+            "availability_reason": null,
+            "loaded_state": "loaded",
+            "observed_at": "2026-10-22T10:00:00.000Z"
+          },
+          {
+            "profile": {
+              "id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 2",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "available",
+            "availability_reason": null,
+            "loaded_state": "not_loaded",
+            "observed_at": "2026-10-22T10:00:00.000Z"
+          },
+          {
+            "profile": {
+              "id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "enabled": true,
+              "display_name": "Synthetic model 3",
+              "context_window": 8192,
+              "max_output_tokens": 1024,
+              "input_modalities": [
+                "text"
+              ],
+              "supports_tools": false,
+              "task_suitability": {
+                "chat": {
+                  "score": 0.5,
+                  "source": "operator_configured",
+                  "note": null
+                },
+                "code": {
+                  "score": 0.25,
+                  "source": "operator_configured",
+                  "note": null
+                }
+              },
+              "latency": {
+                "ttft_ms": 800.0,
+                "tokens_per_second": 20.0,
+                "source": "configured"
+              }
+            },
+            "availability": "unavailable",
+            "availability_reason": "not_installed",
+            "loaded_state": "not_loaded",
+            "observed_at": "2026-10-22T10:00:00.000Z"
+          }
+        ]
+      }
+    }
+  ]
+}

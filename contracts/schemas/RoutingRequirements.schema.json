@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Modality": {
+      "enum": [
+        "text",
+        "image"
+      ],
+      "title": "Modality",
+      "type": "string"
+    },
+    "RequirementsSource": {
+      "enum": [
+        "rules",
+        "classifier",
+        "operator"
+      ],
+      "title": "RequirementsSource",
+      "type": "string"
+    },
+    "TaskType": {
+      "enum": [
+        "chat",
+        "code",
+        "reasoning",
+        "summarization",
+        "extraction"
+      ],
+      "title": "TaskType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "task_type": {
+      "$ref": "#/$defs/TaskType"
+    },
+    "required_modalities": {
+      "items": {
+        "$ref": "#/$defs/Modality"
+      },
+      "title": "Required Modalities",
+      "type": "array"
+    },
+    "requires_tools": {
+      "default": false,
+      "title": "Requires Tools",
+      "type": "boolean"
+    },
+    "source": {
+      "$ref": "#/$defs/RequirementsSource"
+    },
+    "confidence": {
+      "anyOf": [
+        {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Confidence"
+    },
+    "classifier_id": {
+      "anyOf": [
+        {
+          "maxLength": 100,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Classifier Id"
+    }
+  },
+  "required": [
+    "task_type",
+    "source"
+  ],
+  "title": "RoutingRequirements",
+  "type": "object"
+}

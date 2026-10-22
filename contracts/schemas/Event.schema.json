@@ -1,0 +1,1825 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "CancelRequestedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "const": "api",
+          "default": "api",
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "title": "CancelRequestedPayload",
+      "type": "object"
+    },
+    "CandidateEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "title": "Model Id",
+          "type": "string"
+        },
+        "tag": {
+          "maxLength": 200,
+          "pattern": "^[a-z0-9][a-z0-9._-]*(/[a-z0-9][a-z0-9._-]*){0,2}:[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "title": "Tag",
+          "type": "string"
+        },
+        "eligible": {
+          "title": "Eligible",
+          "type": "boolean"
+        },
+        "rejections": {
+          "items": {
+            "$ref": "#/$defs/RejectionReason"
+          },
+          "title": "Rejections",
+          "type": "array"
+        },
+        "context_fit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ContextFit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "components": {
+          "items": {
+            "$ref": "#/$defs/RankingComponent"
+          },
+          "title": "Components",
+          "type": "array"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score"
+        }
+      },
+      "required": [
+        "model_id",
+        "tag",
+        "eligible"
+      ],
+      "title": "CandidateEvaluation",
+      "type": "object"
+    },
+    "ContextEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "default": "ascii3_nonascii1_v1",
+          "title": "Method",
+          "type": "string"
+        },
+        "message_count": {
+          "minimum": 0,
+          "title": "Message Count",
+          "type": "integer"
+        },
+        "point_tokens": {
+          "minimum": 0,
+          "title": "Point Tokens",
+          "type": "integer"
+        },
+        "upper_bound_tokens": {
+          "minimum": 0,
+          "title": "Upper Bound Tokens",
+          "type": "integer"
+        },
+        "margin": {
+          "default": 1.25,
+          "title": "Margin",
+          "type": "number"
+        },
+        "uncertainty": {
+          "default": "Heuristic upper bound (x1.25 margin), not a tokenizer; may under-estimate unusual inputs. Provider-reported prompt_tokens are authoritative after generation.",
+          "title": "Uncertainty",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_count",
+        "point_tokens",
+        "upper_bound_tokens"
+      ],
+      "title": "ContextEstimate",
+      "type": "object"
+    },
+    "ContextFit": {
+      "additionalProperties": false,
+      "properties": {
+        "fits": {
+          "title": "Fits",
+          "type": "boolean"
+        },
+        "context_window": {
+          "minimum": 1,
+          "title": "Context Window",
+          "type": "integer"
+        },
+        "upper_bound_tokens": {
+          "minimum": 0,
+          "title": "Upper Bound Tokens",
+          "type": "integer"
+        },
+        "output_reserve": {
+          "minimum": 0,
+          "title": "Output Reserve",
+          "type": "integer"
+        },
+        "required_tokens": {
+          "minimum": 0,
+          "title": "Required Tokens",
+          "type": "integer"
+        },
+        "failure": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FitFailure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "fits",
+        "context_window",
+        "upper_bound_tokens",
+        "output_reserve",
+        "required_tokens"
+      ],
+      "title": "ContextFit",
+      "type": "object"
+    },
+    "ErrorBody": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Details"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ErrorBody",
+      "type": "object"
+    },
+    "ErrorCode": {
+      "enum": [
+        "validation_error",
+        "bad_request",
+        "not_found",
+        "run_not_found",
+        "conversation_not_found",
+        "conflict",
+        "conversation_busy",
+        "invalid_cursor",
+        "invalid_last_event_id",
+        "host_not_allowed",
+        "no_eligible_model",
+        "model_unavailable",
+        "model_override_ineligible",
+        "context_too_large",
+        "target_not_loopback",
+        "provider_unreachable",
+        "provider_error",
+        "stream_interrupted",
+        "internal_error"
+      ],
+      "title": "ErrorCode",
+      "type": "string"
+    },
+    "FitFailure": {
+      "enum": [
+        "context_exceeded",
+        "output_budget_exceeded"
+      ],
+      "title": "FitFailure",
+      "type": "string"
+    },
+    "GenerationDeltaEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "generation.delta",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/GenerationDeltaPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "GenerationDeltaEvent",
+      "type": "object"
+    },
+    "GenerationDeltaPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "description": "0-based, gapless within the run.",
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Text"
+        },
+        "redacted": {
+          "default": false,
+          "title": "Redacted",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "index",
+        "text"
+      ],
+      "title": "GenerationDeltaPayload",
+      "type": "object"
+    },
+    "GenerationMetricsEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "generation.metrics",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/GenerationMetricsPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "GenerationMetricsEvent",
+      "type": "object"
+    },
+    "GenerationMetricsPayload": {
+      "additionalProperties": false,
+      "description": "Final metrics for the generation phase, emitted at most once, before the terminal event.\nIncomplete metrics (e.g. cancelled mid-stream) are still emitted and flagged incomplete.",
+      "properties": {
+        "metrics": {
+          "$ref": "#/$defs/NormalizedMetrics"
+        }
+      },
+      "required": [
+        "metrics"
+      ],
+      "title": "GenerationMetricsPayload",
+      "type": "object"
+    },
+    "GenerationProgressEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "generation.progress",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/GenerationProgressPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "GenerationProgressEvent",
+      "type": "object"
+    },
+    "GenerationProgressPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "progress": {
+          "$ref": "#/$defs/ProgressMetrics"
+        }
+      },
+      "required": [
+        "progress"
+      ],
+      "title": "GenerationProgressPayload",
+      "type": "object"
+    },
+    "GenerationStartedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "generation.started",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/GenerationStartedPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "GenerationStartedEvent",
+      "type": "object"
+    },
+    "GenerationStartedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+          "title": "Model Id",
+          "type": "string"
+        },
+        "tag": {
+          "maxLength": 200,
+          "pattern": "^[a-z0-9][a-z0-9._-]*(/[a-z0-9][a-z0-9._-]*){0,2}:[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "title": "Tag",
+          "type": "string"
+        },
+        "reserved_output_tokens": {
+          "minimum": 1,
+          "title": "Reserved Output Tokens",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "model_id",
+        "tag",
+        "reserved_output_tokens"
+      ],
+      "title": "GenerationStartedPayload",
+      "type": "object"
+    },
+    "IncompleteReason": {
+      "enum": [
+        "no_final_chunk",
+        "partial_final_chunk",
+        "no_visible_token"
+      ],
+      "title": "IncompleteReason",
+      "type": "string"
+    },
+    "MetricsCompleteness": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/MetricsStatus"
+        },
+        "missing": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing",
+          "type": "array"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IncompleteReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "MetricsCompleteness",
+      "type": "object"
+    },
+    "MetricsStatus": {
+      "enum": [
+        "complete",
+        "incomplete"
+      ],
+      "title": "MetricsStatus",
+      "type": "string"
+    },
+    "Modality": {
+      "enum": [
+        "text",
+        "image"
+      ],
+      "title": "Modality",
+      "type": "string"
+    },
+    "NormalizedMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "routing_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Routing Ms"
+        },
+        "wall_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wall Ms"
+        },
+        "ttft_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ttft Ms"
+        },
+        "load_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Load Ms"
+        },
+        "prompt_eval_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Eval Ms"
+        },
+        "generation_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generation Ms"
+        },
+        "ollama_total_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ollama Total Ms"
+        },
+        "prompt_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Tokens"
+        },
+        "generated_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated Tokens"
+        },
+        "prompt_tokens_per_second": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Tokens Per Second"
+        },
+        "generation_tokens_per_second": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generation Tokens Per Second"
+        },
+        "raw_ollama": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RawOllamaMetrics"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "completeness": {
+          "$ref": "#/$defs/MetricsCompleteness"
+        }
+      },
+      "required": [
+        "completeness"
+      ],
+      "title": "NormalizedMetrics",
+      "type": "object"
+    },
+    "Phase": {
+      "enum": [
+        "queued",
+        "routing",
+        "generating"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "ProgressMetrics": {
+      "additionalProperties": false,
+      "description": "Live, app-observed values only. Load/prefill/decode durations are NOT available live.",
+      "properties": {
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "number"
+        },
+        "visible_chunks": {
+          "minimum": 0,
+          "title": "Visible Chunks",
+          "type": "integer"
+        },
+        "ttft_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ttft Ms"
+        }
+      },
+      "required": [
+        "elapsed_ms",
+        "visible_chunks"
+      ],
+      "title": "ProgressMetrics",
+      "type": "object"
+    },
+    "RankingComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "weight": {
+          "title": "Weight",
+          "type": "number"
+        },
+        "contribution": {
+          "title": "Contribution",
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "weight",
+        "contribution"
+      ],
+      "title": "RankingComponent",
+      "type": "object"
+    },
+    "RawOllamaMetrics": {
+      "additionalProperties": false,
+      "description": "Fields of Ollama's final stream chunk, verbatim (nanoseconds / counts). All optional.",
+      "properties": {
+        "total_duration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Duration"
+        },
+        "load_duration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Load Duration"
+        },
+        "prompt_eval_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Eval Count"
+        },
+        "prompt_eval_duration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Eval Duration"
+        },
+        "eval_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eval Count"
+        },
+        "eval_duration": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eval Duration"
+        }
+      },
+      "title": "RawOllamaMetrics",
+      "type": "object"
+    },
+    "RejectionReason": {
+      "enum": [
+        "disabled",
+        "not_installed",
+        "availability_unknown",
+        "modality_unsupported",
+        "tools_unsupported",
+        "context_exceeded",
+        "output_budget_exceeded"
+      ],
+      "title": "RejectionReason",
+      "type": "string"
+    },
+    "RequirementsSource": {
+      "enum": [
+        "rules",
+        "classifier",
+        "operator"
+      ],
+      "title": "RequirementsSource",
+      "type": "string"
+    },
+    "Retention": {
+      "additionalProperties": false,
+      "properties": {
+        "prompts": {
+          "default": false,
+          "title": "Prompts",
+          "type": "boolean"
+        },
+        "responses": {
+          "default": false,
+          "title": "Responses",
+          "type": "boolean"
+        }
+      },
+      "title": "Retention",
+      "type": "object"
+    },
+    "RoutingDecidedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "routing.decided",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/RoutingDecidedPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "RoutingDecidedEvent",
+      "type": "object"
+    },
+    "RoutingDecidedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/RoutingDecision"
+        }
+      },
+      "required": [
+        "decision"
+      ],
+      "title": "RoutingDecidedPayload",
+      "type": "object"
+    },
+    "RoutingDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "mode": {
+          "$ref": "#/$defs/RoutingMode"
+        },
+        "requirements": {
+          "$ref": "#/$defs/RoutingRequirements"
+        },
+        "context_estimate": {
+          "$ref": "#/$defs/ContextEstimate"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/CandidateEvaluation"
+          },
+          "minItems": 1,
+          "title": "Candidates",
+          "type": "array"
+        },
+        "outcome": {
+          "$ref": "#/$defs/RoutingOutcome"
+        },
+        "selected_model_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selected Model Id"
+        },
+        "reasons": {
+          "items": {
+            "$ref": "#/$defs/RoutingReason"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "override_applied": {
+          "default": false,
+          "title": "Override Applied",
+          "type": "boolean"
+        },
+        "sticky_applied": {
+          "default": false,
+          "title": "Sticky Applied",
+          "type": "boolean"
+        },
+        "decided_at": {
+          "format": "date-time",
+          "title": "Decided At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy_version",
+        "mode",
+        "requirements",
+        "context_estimate",
+        "candidates",
+        "outcome",
+        "decided_at"
+      ],
+      "title": "RoutingDecision",
+      "type": "object"
+    },
+    "RoutingMode": {
+      "enum": [
+        "auto",
+        "classifier",
+        "manual"
+      ],
+      "title": "RoutingMode",
+      "type": "string"
+    },
+    "RoutingOutcome": {
+      "enum": [
+        "selected",
+        "no_eligible_model"
+      ],
+      "title": "RoutingOutcome",
+      "type": "string"
+    },
+    "RoutingReason": {
+      "enum": [
+        "manual_override",
+        "sticky_conversation",
+        "highest_score",
+        "only_eligible_candidate",
+        "tie_break_profile_order"
+      ],
+      "title": "RoutingReason",
+      "type": "string"
+    },
+    "RoutingRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "task_type": {
+          "$ref": "#/$defs/TaskType"
+        },
+        "required_modalities": {
+          "items": {
+            "$ref": "#/$defs/Modality"
+          },
+          "title": "Required Modalities",
+          "type": "array"
+        },
+        "requires_tools": {
+          "default": false,
+          "title": "Requires Tools",
+          "type": "boolean"
+        },
+        "source": {
+          "$ref": "#/$defs/RequirementsSource"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence"
+        },
+        "classifier_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Classifier Id"
+        }
+      },
+      "required": [
+        "task_type",
+        "source"
+      ],
+      "title": "RoutingRequirements",
+      "type": "object"
+    },
+    "RoutingStartedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "routing.started",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/RoutingStartedPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "RoutingStartedEvent",
+      "type": "object"
+    },
+    "RoutingStartedPayload": {
+      "additionalProperties": false,
+      "properties": {},
+      "title": "RoutingStartedPayload",
+      "type": "object"
+    },
+    "RunCancelRequestedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "run.cancel_requested",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/CancelRequestedPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "RunCancelRequestedEvent",
+      "type": "object"
+    },
+    "RunCancelledEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "run.cancelled",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/RunCancelledPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "RunCancelledEvent",
+      "type": "object"
+    },
+    "RunCancelledPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "partial_output": {
+          "description": "True if visible content was already emitted.",
+          "title": "Partial Output",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "partial_output"
+      ],
+      "title": "RunCancelledPayload",
+      "type": "object"
+    },
+    "RunCompletedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "run.completed",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/RunCompletedPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "RunCompletedEvent",
+      "type": "object"
+    },
+    "RunCompletedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "finish_reason": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finish Reason"
+        },
+        "visible_chunks": {
+          "minimum": 0,
+          "title": "Visible Chunks",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "visible_chunks"
+      ],
+      "title": "RunCompletedPayload",
+      "type": "object"
+    },
+    "RunFailedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "run.failed",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/RunFailedPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "RunFailedEvent",
+      "type": "object"
+    },
+    "RunFailedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "$ref": "#/$defs/ErrorBody"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "RunFailedPayload",
+      "type": "object"
+    },
+    "RunInterruptedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "run.interrupted",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/RunInterruptedPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "RunInterruptedEvent",
+      "type": "object"
+    },
+    "RunInterruptedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "previous_status": {
+          "$ref": "#/$defs/Phase"
+        }
+      },
+      "required": [
+        "previous_status"
+      ],
+      "title": "RunInterruptedPayload",
+      "type": "object"
+    },
+    "RunQueuedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run_[0-9a-f]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "pattern": "^conv_[0-9a-f]{32}$",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "phase_id": {
+          "pattern": "^ph_[0-9a-f]{32}$",
+          "title": "Phase Id",
+          "type": "string"
+        },
+        "phase": {
+          "$ref": "#/$defs/Phase"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "type": {
+          "const": "run.queued",
+          "title": "Type",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/RunQueuedPayload"
+        }
+      },
+      "required": [
+        "run_id",
+        "conversation_id",
+        "phase_id",
+        "phase",
+        "sequence",
+        "timestamp",
+        "type",
+        "payload"
+      ],
+      "title": "RunQueuedEvent",
+      "type": "object"
+    },
+    "RunQueuedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "routing_mode": {
+          "$ref": "#/$defs/RoutingMode"
+        },
+        "model_override": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Override"
+        },
+        "message_count": {
+          "minimum": 1,
+          "title": "Message Count",
+          "type": "integer"
+        },
+        "retention": {
+          "$ref": "#/$defs/Retention"
+        }
+      },
+      "required": [
+        "routing_mode",
+        "message_count",
+        "retention"
+      ],
+      "title": "RunQueuedPayload",
+      "type": "object"
+    },
+    "TaskType": {
+      "enum": [
+        "chat",
+        "code",
+        "reasoning",
+        "summarization",
+        "extraction"
+      ],
+      "title": "TaskType",
+      "type": "string"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "generation.delta": "#/$defs/GenerationDeltaEvent",
+      "generation.metrics": "#/$defs/GenerationMetricsEvent",
+      "generation.progress": "#/$defs/GenerationProgressEvent",
+      "generation.started": "#/$defs/GenerationStartedEvent",
+      "routing.decided": "#/$defs/RoutingDecidedEvent",
+      "routing.started": "#/$defs/RoutingStartedEvent",
+      "run.cancel_requested": "#/$defs/RunCancelRequestedEvent",
+      "run.cancelled": "#/$defs/RunCancelledEvent",
+      "run.completed": "#/$defs/RunCompletedEvent",
+      "run.failed": "#/$defs/RunFailedEvent",
+      "run.interrupted": "#/$defs/RunInterruptedEvent",
+      "run.queued": "#/$defs/RunQueuedEvent"
+    },
+    "propertyName": "type"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/RunQueuedEvent"
+    },
+    {
+      "$ref": "#/$defs/RoutingStartedEvent"
+    },
+    {
+      "$ref": "#/$defs/RoutingDecidedEvent"
+    },
+    {
+      "$ref": "#/$defs/GenerationStartedEvent"
+    },
+    {
+      "$ref": "#/$defs/GenerationDeltaEvent"
+    },
+    {
+      "$ref": "#/$defs/GenerationProgressEvent"
+    },
+    {
+      "$ref": "#/$defs/GenerationMetricsEvent"
+    },
+    {
+      "$ref": "#/$defs/RunCancelRequestedEvent"
+    },
+    {
+      "$ref": "#/$defs/RunCompletedEvent"
+    },
+    {
+      "$ref": "#/$defs/RunFailedEvent"
+    },
+    {
+      "$ref": "#/$defs/RunCancelledEvent"
+    },
+    {
+      "$ref": "#/$defs/RunInterruptedEvent"
+    }
+  ],
+  "title": "Event"
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "method": {
+      "default": "ascii3_nonascii1_v1",
+      "title": "Method",
+      "type": "string"
+    },
+    "message_count": {
+      "minimum": 0,
+      "title": "Message Count",
+      "type": "integer"
+    },
+    "point_tokens": {
+      "minimum": 0,
+      "title": "Point Tokens",
+      "type": "integer"
+    },
+    "upper_bound_tokens": {
+      "minimum": 0,
+      "title": "Upper Bound Tokens",
+      "type": "integer"
+    },
+    "margin": {
+      "default": 1.25,
+      "title": "Margin",
+      "type": "number"
+    },
+    "uncertainty": {
+      "default": "Heuristic upper bound (x1.25 margin), not a tokenizer; may under-estimate unusual inputs. Provider-reported prompt_tokens are authoritative after generation.",
+      "title": "Uncertainty",
+      "type": "string"
+    }
+  },
+  "required": [
+    "message_count",
+    "point_tokens",
+    "upper_bound_tokens"
+  ],
+  "title": "ContextEstimate",
+  "type": "object"
+}

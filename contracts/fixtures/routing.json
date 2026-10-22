@@ -1,0 +1,1159 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "Routing requirement/decision invariants.",
+  "cases": [
+    {
+      "name": "requirements: rules",
+      "schema": "RoutingRequirements",
+      "valid": true,
+      "data": {
+        "task_type": "chat",
+        "required_modalities": [
+          "text"
+        ],
+        "requires_tools": false,
+        "source": "rules",
+        "confidence": null,
+        "classifier_id": null
+      }
+    },
+    {
+      "name": "requirements: classifier with confidence",
+      "schema": "RoutingRequirements",
+      "valid": true,
+      "data": {
+        "task_type": "chat",
+        "required_modalities": [
+          "text"
+        ],
+        "requires_tools": false,
+        "source": "classifier",
+        "confidence": 0.75,
+        "classifier_id": "synthetic-classifier"
+      }
+    },
+    {
+      "name": "requirements: confidence only valid for classifier source",
+      "schema": "RoutingRequirements",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "task_type": "chat",
+        "required_modalities": [
+          "text"
+        ],
+        "requires_tools": false,
+        "source": "rules",
+        "confidence": 0.5,
+        "classifier_id": null
+      }
+    },
+    {
+      "name": "requirements: classifier cannot name a model",
+      "schema": "RoutingRequirements",
+      "valid": false,
+      "data": {
+        "task_type": "chat",
+        "required_modalities": [
+          "text"
+        ],
+        "requires_tools": false,
+        "source": "classifier",
+        "confidence": null,
+        "classifier_id": null,
+        "model": "model-1"
+      }
+    },
+    {
+      "name": "requirements: classifier cannot name an endpoint",
+      "schema": "RoutingRequirements",
+      "valid": false,
+      "data": {
+        "task_type": "chat",
+        "required_modalities": [
+          "text"
+        ],
+        "requires_tools": false,
+        "source": "classifier",
+        "confidence": null,
+        "classifier_id": null,
+        "endpoint": "http://example.com"
+      }
+    },
+    {
+      "name": "decision: selected by highest score, rejected candidates recorded",
+      "schema": "RoutingDecision",
+      "valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "auto",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.75,
+                "weight": 0.5,
+                "contribution": 0.375
+              },
+              {
+                "name": "latency",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              }
+            ],
+            "score": 0.625
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              },
+              {
+                "name": "latency",
+                "value": 0.25,
+                "weight": 0.5,
+                "contribution": 0.125
+              }
+            ],
+            "score": 0.375
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "context_exceeded"
+            ],
+            "context_fit": {
+              "fits": false,
+              "context_window": 512,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": "context_exceeded"
+            },
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "selected",
+        "selected_model_id": "model-1",
+        "reasons": [
+          "highest_score"
+        ],
+        "override_applied": false,
+        "sticky_applied": false,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    },
+    {
+      "name": "decision: manual override",
+      "schema": "RoutingDecision",
+      "valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "manual",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.75,
+                "weight": 0.5,
+                "contribution": 0.375
+              },
+              {
+                "name": "latency",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              }
+            ],
+            "score": 0.625
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              },
+              {
+                "name": "latency",
+                "value": 0.25,
+                "weight": 0.5,
+                "contribution": 0.125
+              }
+            ],
+            "score": 0.375
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "context_exceeded"
+            ],
+            "context_fit": {
+              "fits": false,
+              "context_window": 512,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": "context_exceeded"
+            },
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "selected",
+        "selected_model_id": "model-1",
+        "reasons": [
+          "manual_override"
+        ],
+        "override_applied": true,
+        "sticky_applied": false,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    },
+    {
+      "name": "decision: sticky conversation",
+      "schema": "RoutingDecision",
+      "valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "auto",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.75,
+                "weight": 0.5,
+                "contribution": 0.375
+              },
+              {
+                "name": "latency",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              }
+            ],
+            "score": 0.625
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              },
+              {
+                "name": "latency",
+                "value": 0.25,
+                "weight": 0.5,
+                "contribution": 0.125
+              }
+            ],
+            "score": 0.375
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "context_exceeded"
+            ],
+            "context_fit": {
+              "fits": false,
+              "context_window": 512,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": "context_exceeded"
+            },
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "selected",
+        "selected_model_id": "model-1",
+        "reasons": [
+          "sticky_conversation"
+        ],
+        "override_applied": false,
+        "sticky_applied": true,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    },
+    {
+      "name": "decision: no eligible model",
+      "schema": "RoutingDecision",
+      "valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "auto",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": false,
+            "rejections": [
+              "disabled"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "modality_unsupported"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "tools_unsupported"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "no_eligible_model",
+        "selected_model_id": null,
+        "reasons": [],
+        "override_applied": false,
+        "sticky_applied": false,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    },
+    {
+      "name": "decision: ineligible candidate can never be selected",
+      "schema": "RoutingDecision",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "auto",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.75,
+                "weight": 0.5,
+                "contribution": 0.375
+              },
+              {
+                "name": "latency",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              }
+            ],
+            "score": 0.625
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              },
+              {
+                "name": "latency",
+                "value": 0.25,
+                "weight": 0.5,
+                "contribution": 0.125
+              }
+            ],
+            "score": 0.375
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "context_exceeded"
+            ],
+            "context_fit": {
+              "fits": false,
+              "context_window": 512,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": "context_exceeded"
+            },
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "selected",
+        "selected_model_id": "model-3",
+        "reasons": [
+          "highest_score"
+        ],
+        "override_applied": false,
+        "sticky_applied": false,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    },
+    {
+      "name": "decision: selected model must be a candidate",
+      "schema": "RoutingDecision",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "auto",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.75,
+                "weight": 0.5,
+                "contribution": 0.375
+              },
+              {
+                "name": "latency",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              }
+            ],
+            "score": 0.625
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              },
+              {
+                "name": "latency",
+                "value": 0.25,
+                "weight": 0.5,
+                "contribution": 0.125
+              }
+            ],
+            "score": 0.375
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "context_exceeded"
+            ],
+            "context_fit": {
+              "fits": false,
+              "context_window": 512,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": "context_exceeded"
+            },
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "selected",
+        "selected_model_id": "model-9",
+        "reasons": [
+          "highest_score"
+        ],
+        "override_applied": false,
+        "sticky_applied": false,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    },
+    {
+      "name": "decision: override_applied needs manual_override reason",
+      "schema": "RoutingDecision",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "auto",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.75,
+                "weight": 0.5,
+                "contribution": 0.375
+              },
+              {
+                "name": "latency",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              }
+            ],
+            "score": 0.625
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              },
+              {
+                "name": "latency",
+                "value": 0.25,
+                "weight": 0.5,
+                "contribution": 0.125
+              }
+            ],
+            "score": 0.375
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "context_exceeded"
+            ],
+            "context_fit": {
+              "fits": false,
+              "context_window": 512,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": "context_exceeded"
+            },
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "selected",
+        "selected_model_id": "model-1",
+        "reasons": [
+          "highest_score"
+        ],
+        "override_applied": true,
+        "sticky_applied": false,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    },
+    {
+      "name": "decision: manual selection must record override",
+      "schema": "RoutingDecision",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "manual",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.75,
+                "weight": 0.5,
+                "contribution": 0.375
+              },
+              {
+                "name": "latency",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              }
+            ],
+            "score": 0.625
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              },
+              {
+                "name": "latency",
+                "value": 0.25,
+                "weight": 0.5,
+                "contribution": 0.125
+              }
+            ],
+            "score": 0.375
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "context_exceeded"
+            ],
+            "context_fit": {
+              "fits": false,
+              "context_window": 512,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": "context_exceeded"
+            },
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "selected",
+        "selected_model_id": "model-1",
+        "reasons": [
+          "highest_score"
+        ],
+        "override_applied": false,
+        "sticky_applied": false,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    },
+    {
+      "name": "decision: no_eligible_model while a candidate is eligible",
+      "schema": "RoutingDecision",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "policy_version": "synthetic-policy-0",
+        "mode": "auto",
+        "requirements": {
+          "task_type": "chat",
+          "required_modalities": [
+            "text"
+          ],
+          "requires_tools": false,
+          "source": "rules",
+          "confidence": null,
+          "classifier_id": null
+        },
+        "context_estimate": {
+          "method": "ascii3_nonascii1_v1",
+          "message_count": 1,
+          "point_tokens": 33,
+          "upper_bound_tokens": 42,
+          "margin": 1.25,
+          "uncertainty": "Synthetic fixture value."
+        },
+        "candidates": [
+          {
+            "model_id": "model-1",
+            "tag": "example/model-1:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.75,
+                "weight": 0.5,
+                "contribution": 0.375
+              },
+              {
+                "name": "latency",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              }
+            ],
+            "score": 0.625
+          },
+          {
+            "model_id": "model-2",
+            "tag": "example/model-2:synthetic",
+            "eligible": true,
+            "rejections": [],
+            "context_fit": {
+              "fits": true,
+              "context_window": 8192,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": null
+            },
+            "components": [
+              {
+                "name": "task_suitability",
+                "value": 0.5,
+                "weight": 0.5,
+                "contribution": 0.25
+              },
+              {
+                "name": "latency",
+                "value": 0.25,
+                "weight": 0.5,
+                "contribution": 0.125
+              }
+            ],
+            "score": 0.375
+          },
+          {
+            "model_id": "model-3",
+            "tag": "example/model-3:synthetic",
+            "eligible": false,
+            "rejections": [
+              "not_installed"
+            ],
+            "context_fit": null,
+            "components": [],
+            "score": null
+          },
+          {
+            "model_id": "model-4",
+            "tag": "example/model-4:synthetic",
+            "eligible": false,
+            "rejections": [
+              "context_exceeded"
+            ],
+            "context_fit": {
+              "fits": false,
+              "context_window": 512,
+              "upper_bound_tokens": 42,
+              "output_reserve": 1024,
+              "required_tokens": 1066,
+              "failure": "context_exceeded"
+            },
+            "components": [],
+            "score": null
+          }
+        ],
+        "outcome": "no_eligible_model",
+        "selected_model_id": null,
+        "reasons": [],
+        "override_applied": false,
+        "sticky_applied": false,
+        "decided_at": "2026-10-22T10:00:00.005Z"
+      }
+    }
+  ]
+}

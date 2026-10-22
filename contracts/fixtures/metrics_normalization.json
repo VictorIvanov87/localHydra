@@ -1,0 +1,205 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "Inputs/outputs of normalize_ollama_metrics (executed by the Python reference).",
+  "cases": [
+    {
+      "name": "complete final chunk",
+      "raw": {
+        "total_duration": 2500000000,
+        "load_duration": 500000000,
+        "prompt_eval_count": 26,
+        "prompt_eval_duration": 100000000,
+        "eval_count": 100,
+        "eval_duration": 1600000000
+      },
+      "routing_ms": 3.5,
+      "wall_ms": 2600.0,
+      "ttft_ms": 700.0,
+      "expected": {
+        "routing_ms": 3.5,
+        "wall_ms": 2600.0,
+        "ttft_ms": 700.0,
+        "load_ms": 500.0,
+        "prompt_eval_ms": 100.0,
+        "generation_ms": 1600.0,
+        "ollama_total_ms": 2500.0,
+        "prompt_tokens": 26,
+        "generated_tokens": 100,
+        "prompt_tokens_per_second": 260.0,
+        "generation_tokens_per_second": 62.5,
+        "raw_ollama": {
+          "total_duration": 2500000000,
+          "load_duration": 500000000,
+          "prompt_eval_count": 26,
+          "prompt_eval_duration": 100000000,
+          "eval_count": 100,
+          "eval_duration": 1600000000
+        },
+        "completeness": {
+          "status": "complete",
+          "missing": [],
+          "reason": null
+        }
+      }
+    },
+    {
+      "name": "cancelled/failed before final chunk: app timings kept, rest null, flagged incomplete",
+      "raw": null,
+      "routing_ms": 2.0,
+      "wall_ms": 350.0,
+      "ttft_ms": 120.0,
+      "expected": {
+        "routing_ms": 2.0,
+        "wall_ms": 350.0,
+        "ttft_ms": 120.0,
+        "load_ms": null,
+        "prompt_eval_ms": null,
+        "generation_ms": null,
+        "ollama_total_ms": null,
+        "prompt_tokens": null,
+        "generated_tokens": null,
+        "prompt_tokens_per_second": null,
+        "generation_tokens_per_second": null,
+        "raw_ollama": null,
+        "completeness": {
+          "status": "incomplete",
+          "missing": [
+            "load_ms",
+            "prompt_eval_ms",
+            "generation_ms",
+            "ollama_total_ms",
+            "prompt_tokens",
+            "generated_tokens"
+          ],
+          "reason": "no_final_chunk"
+        }
+      }
+    },
+    {
+      "name": "final chunk without prompt fields (e.g. cached prompt): flagged partial, no invented prompt tokens",
+      "raw": {
+        "total_duration": 1200000000,
+        "load_duration": 10000000,
+        "prompt_eval_count": null,
+        "prompt_eval_duration": null,
+        "eval_count": 50,
+        "eval_duration": 800000000
+      },
+      "routing_ms": 1.0,
+      "wall_ms": 1250.0,
+      "ttft_ms": 90.0,
+      "expected": {
+        "routing_ms": 1.0,
+        "wall_ms": 1250.0,
+        "ttft_ms": 90.0,
+        "load_ms": 10.0,
+        "prompt_eval_ms": null,
+        "generation_ms": 800.0,
+        "ollama_total_ms": 1200.0,
+        "prompt_tokens": null,
+        "generated_tokens": 50,
+        "prompt_tokens_per_second": null,
+        "generation_tokens_per_second": 62.5,
+        "raw_ollama": {
+          "total_duration": 1200000000,
+          "load_duration": 10000000,
+          "prompt_eval_count": null,
+          "prompt_eval_duration": null,
+          "eval_count": 50,
+          "eval_duration": 800000000
+        },
+        "completeness": {
+          "status": "incomplete",
+          "missing": [
+            "prompt_eval_ms",
+            "prompt_tokens"
+          ],
+          "reason": "partial_final_chunk"
+        }
+      }
+    },
+    {
+      "name": "no visible token: only ttft is missing",
+      "raw": {
+        "total_duration": 60000000,
+        "load_duration": 1000000,
+        "prompt_eval_count": 10,
+        "prompt_eval_duration": 50000000,
+        "eval_count": 0,
+        "eval_duration": 1000000
+      },
+      "routing_ms": 1.0,
+      "wall_ms": 70.0,
+      "ttft_ms": null,
+      "expected": {
+        "routing_ms": 1.0,
+        "wall_ms": 70.0,
+        "ttft_ms": null,
+        "load_ms": 1.0,
+        "prompt_eval_ms": 50.0,
+        "generation_ms": 1.0,
+        "ollama_total_ms": 60.0,
+        "prompt_tokens": 10,
+        "generated_tokens": 0,
+        "prompt_tokens_per_second": 200.0,
+        "generation_tokens_per_second": 0.0,
+        "raw_ollama": {
+          "total_duration": 60000000,
+          "load_duration": 1000000,
+          "prompt_eval_count": 10,
+          "prompt_eval_duration": 50000000,
+          "eval_count": 0,
+          "eval_duration": 1000000
+        },
+        "completeness": {
+          "status": "incomplete",
+          "missing": [
+            "ttft_ms"
+          ],
+          "reason": "no_visible_token"
+        }
+      }
+    },
+    {
+      "name": "zero measured duration: no division by zero, throughput stays null",
+      "raw": {
+        "total_duration": 5000000,
+        "load_duration": 0,
+        "prompt_eval_count": 3,
+        "prompt_eval_duration": 1000000,
+        "eval_count": 5,
+        "eval_duration": 0
+      },
+      "routing_ms": 0.5,
+      "wall_ms": 6.0,
+      "ttft_ms": 2.0,
+      "expected": {
+        "routing_ms": 0.5,
+        "wall_ms": 6.0,
+        "ttft_ms": 2.0,
+        "load_ms": 0.0,
+        "prompt_eval_ms": 1.0,
+        "generation_ms": 0.0,
+        "ollama_total_ms": 5.0,
+        "prompt_tokens": 3,
+        "generated_tokens": 5,
+        "prompt_tokens_per_second": 3000.0,
+        "generation_tokens_per_second": null,
+        "raw_ollama": {
+          "total_duration": 5000000,
+          "load_duration": 0,
+          "prompt_eval_count": 3,
+          "prompt_eval_duration": 1000000,
+          "eval_count": 5,
+          "eval_duration": 0
+        },
+        "completeness": {
+          "status": "complete",
+          "missing": [],
+          "reason": null
+        }
+      }
+    }
+  ]
+}

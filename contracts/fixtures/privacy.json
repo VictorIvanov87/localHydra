@@ -1,0 +1,101 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "Persisted-copy redaction (redact_for_persistence). Live SSE delivery is never redacted.",
+  "redaction": [
+    {
+      "name": "responses not retained -> text removed",
+      "event": {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000003",
+        "phase": "generating",
+        "sequence": 5,
+        "timestamp": "2026-10-22T10:00:00.050Z",
+        "type": "generation.delta",
+        "payload": {
+          "index": 0,
+          "text": "Rain",
+          "redacted": false
+        }
+      },
+      "retention": {
+        "prompts": false,
+        "responses": false
+      },
+      "expected_text": null,
+      "expected_redacted": true
+    },
+    {
+      "name": "prompt retention alone does not retain responses",
+      "event": {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000003",
+        "phase": "generating",
+        "sequence": 5,
+        "timestamp": "2026-10-22T10:00:00.050Z",
+        "type": "generation.delta",
+        "payload": {
+          "index": 0,
+          "text": "Rain",
+          "redacted": false
+        }
+      },
+      "retention": {
+        "prompts": true,
+        "responses": false
+      },
+      "expected_text": null,
+      "expected_redacted": true
+    },
+    {
+      "name": "responses retained -> text kept",
+      "event": {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000003",
+        "phase": "generating",
+        "sequence": 5,
+        "timestamp": "2026-10-22T10:00:00.050Z",
+        "type": "generation.delta",
+        "payload": {
+          "index": 0,
+          "text": "Rain",
+          "redacted": false
+        }
+      },
+      "retention": {
+        "prompts": false,
+        "responses": true
+      },
+      "expected_text": "Rain",
+      "expected_redacted": false
+    },
+    {
+      "name": "non-delta events are untouched",
+      "event": {
+        "schema_version": 1,
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "phase_id": "ph_00000000000000000000000000000003",
+        "phase": "generating",
+        "sequence": 9,
+        "timestamp": "2026-10-22T10:00:00.090Z",
+        "type": "run.completed",
+        "payload": {
+          "finish_reason": "stop",
+          "visible_chunks": 2
+        }
+      },
+      "retention": {
+        "prompts": false,
+        "responses": false
+      },
+      "unchanged": true
+    }
+  ]
+}

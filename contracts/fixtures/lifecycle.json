@@ -1,0 +1,1145 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "Lifecycle compare-and-set, idempotent cancel decisions and restart recovery.",
+  "transitions": [
+    {
+      "current": "queued",
+      "target": "queued",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "queued",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "queued",
+      "target": "queued",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "queued",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "queued",
+      "target": "routing",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "routing",
+        "rejection": null
+      }
+    },
+    {
+      "current": "queued",
+      "target": "routing",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "routing",
+        "rejection": null
+      }
+    },
+    {
+      "current": "queued",
+      "target": "generating",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "queued",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "queued",
+      "target": "generating",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "queued",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "queued",
+      "target": "completed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "queued",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "queued",
+      "target": "completed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "queued",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "queued",
+      "target": "failed",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "failed",
+        "rejection": null
+      }
+    },
+    {
+      "current": "queued",
+      "target": "failed",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "failed",
+        "rejection": null
+      }
+    },
+    {
+      "current": "queued",
+      "target": "cancelled",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "cancelled",
+        "rejection": null
+      }
+    },
+    {
+      "current": "queued",
+      "target": "cancelled",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "cancelled",
+        "rejection": null
+      }
+    },
+    {
+      "current": "queued",
+      "target": "interrupted",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "queued",
+        "rejection": "interrupted_requires_recovery"
+      }
+    },
+    {
+      "current": "queued",
+      "target": "interrupted",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "interrupted",
+        "rejection": null
+      }
+    },
+    {
+      "current": "routing",
+      "target": "queued",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "routing",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "routing",
+      "target": "queued",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "routing",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "routing",
+      "target": "routing",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "routing",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "routing",
+      "target": "routing",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "routing",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "routing",
+      "target": "generating",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "generating",
+        "rejection": null
+      }
+    },
+    {
+      "current": "routing",
+      "target": "generating",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "generating",
+        "rejection": null
+      }
+    },
+    {
+      "current": "routing",
+      "target": "completed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "routing",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "routing",
+      "target": "completed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "routing",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "routing",
+      "target": "failed",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "failed",
+        "rejection": null
+      }
+    },
+    {
+      "current": "routing",
+      "target": "failed",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "failed",
+        "rejection": null
+      }
+    },
+    {
+      "current": "routing",
+      "target": "cancelled",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "cancelled",
+        "rejection": null
+      }
+    },
+    {
+      "current": "routing",
+      "target": "cancelled",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "cancelled",
+        "rejection": null
+      }
+    },
+    {
+      "current": "routing",
+      "target": "interrupted",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "routing",
+        "rejection": "interrupted_requires_recovery"
+      }
+    },
+    {
+      "current": "routing",
+      "target": "interrupted",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "interrupted",
+        "rejection": null
+      }
+    },
+    {
+      "current": "generating",
+      "target": "queued",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "generating",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "generating",
+      "target": "queued",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "generating",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "generating",
+      "target": "routing",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "generating",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "generating",
+      "target": "routing",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "generating",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "generating",
+      "target": "generating",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "generating",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "generating",
+      "target": "generating",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "generating",
+        "rejection": "illegal_transition"
+      }
+    },
+    {
+      "current": "generating",
+      "target": "completed",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "completed",
+        "rejection": null
+      }
+    },
+    {
+      "current": "generating",
+      "target": "completed",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "completed",
+        "rejection": null
+      }
+    },
+    {
+      "current": "generating",
+      "target": "failed",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "failed",
+        "rejection": null
+      }
+    },
+    {
+      "current": "generating",
+      "target": "failed",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "failed",
+        "rejection": null
+      }
+    },
+    {
+      "current": "generating",
+      "target": "cancelled",
+      "recovery": false,
+      "expected": {
+        "accepted": true,
+        "status": "cancelled",
+        "rejection": null
+      }
+    },
+    {
+      "current": "generating",
+      "target": "cancelled",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "cancelled",
+        "rejection": null
+      }
+    },
+    {
+      "current": "generating",
+      "target": "interrupted",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "generating",
+        "rejection": "interrupted_requires_recovery"
+      }
+    },
+    {
+      "current": "generating",
+      "target": "interrupted",
+      "recovery": true,
+      "expected": {
+        "accepted": true,
+        "status": "interrupted",
+        "rejection": null
+      }
+    },
+    {
+      "current": "completed",
+      "target": "queued",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "queued",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "routing",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "routing",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "generating",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "generating",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "completed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "completed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "failed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "failed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "cancelled",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "cancelled",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "interrupted",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "completed",
+      "target": "interrupted",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "completed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "queued",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "queued",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "routing",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "routing",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "generating",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "generating",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "completed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "completed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "failed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "failed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "cancelled",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "cancelled",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "interrupted",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "failed",
+      "target": "interrupted",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "failed",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "queued",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "queued",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "routing",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "routing",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "generating",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "generating",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "completed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "completed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "failed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "failed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "cancelled",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "cancelled",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "interrupted",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "cancelled",
+      "target": "interrupted",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "cancelled",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "queued",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "queued",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "routing",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "routing",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "generating",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "generating",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "completed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "completed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "failed",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "failed",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "cancelled",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "cancelled",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "interrupted",
+      "recovery": false,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    },
+    {
+      "current": "interrupted",
+      "target": "interrupted",
+      "recovery": true,
+      "expected": {
+        "accepted": false,
+        "status": "interrupted",
+        "rejection": "already_terminal"
+      }
+    }
+  ],
+  "cancels": [
+    {
+      "status": "queued",
+      "cancel_already_requested": false,
+      "expected": {
+        "effect": "cancelled",
+        "append_cancel_requested_event": true,
+        "finalize_cancelled_now": true
+      }
+    },
+    {
+      "status": "queued",
+      "cancel_already_requested": true,
+      "expected": {
+        "effect": "cancelled",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": true
+      }
+    },
+    {
+      "status": "routing",
+      "cancel_already_requested": false,
+      "expected": {
+        "effect": "cancel_requested",
+        "append_cancel_requested_event": true,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "routing",
+      "cancel_already_requested": true,
+      "expected": {
+        "effect": "cancel_requested",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "generating",
+      "cancel_already_requested": false,
+      "expected": {
+        "effect": "cancel_requested",
+        "append_cancel_requested_event": true,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "generating",
+      "cancel_already_requested": true,
+      "expected": {
+        "effect": "cancel_requested",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "completed",
+      "cancel_already_requested": false,
+      "expected": {
+        "effect": "already_terminal",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "completed",
+      "cancel_already_requested": true,
+      "expected": {
+        "effect": "already_terminal",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "failed",
+      "cancel_already_requested": false,
+      "expected": {
+        "effect": "already_terminal",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "failed",
+      "cancel_already_requested": true,
+      "expected": {
+        "effect": "already_terminal",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "cancelled",
+      "cancel_already_requested": false,
+      "expected": {
+        "effect": "already_terminal",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "cancelled",
+      "cancel_already_requested": true,
+      "expected": {
+        "effect": "already_terminal",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "interrupted",
+      "cancel_already_requested": false,
+      "expected": {
+        "effect": "already_terminal",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    },
+    {
+      "status": "interrupted",
+      "cancel_already_requested": true,
+      "expected": {
+        "effect": "already_terminal",
+        "append_cancel_requested_event": false,
+        "finalize_cancelled_now": false
+      }
+    }
+  ],
+  "recovery": [
+    {
+      "persisted": "queued",
+      "recovered": "interrupted"
+    },
+    {
+      "persisted": "routing",
+      "recovered": "interrupted"
+    },
+    {
+      "persisted": "generating",
+      "recovered": "interrupted"
+    },
+    {
+      "persisted": "completed",
+      "recovered": "completed"
+    },
+    {
+      "persisted": "failed",
+      "recovered": "failed"
+    },
+    {
+      "persisted": "cancelled",
+      "recovered": "cancelled"
+    },
+    {
+      "persisted": "interrupted",
+      "recovered": "interrupted"
+    }
+  ]
+}

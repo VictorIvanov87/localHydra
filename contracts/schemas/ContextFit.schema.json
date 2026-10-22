@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "FitFailure": {
+      "enum": [
+        "context_exceeded",
+        "output_budget_exceeded"
+      ],
+      "title": "FitFailure",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "fits": {
+      "title": "Fits",
+      "type": "boolean"
+    },
+    "context_window": {
+      "minimum": 1,
+      "title": "Context Window",
+      "type": "integer"
+    },
+    "upper_bound_tokens": {
+      "minimum": 0,
+      "title": "Upper Bound Tokens",
+      "type": "integer"
+    },
+    "output_reserve": {
+      "minimum": 0,
+      "title": "Output Reserve",
+      "type": "integer"
+    },
+    "required_tokens": {
+      "minimum": 0,
+      "title": "Required Tokens",
+      "type": "integer"
+    },
+    "failure": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FitFailure"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "fits",
+    "context_window",
+    "upper_bound_tokens",
+    "output_reserve",
+    "required_tokens"
+  ],
+  "title": "ContextFit",
+  "type": "object"
+}

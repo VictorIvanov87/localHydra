@@ -1,0 +1,239 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "Metrics schema cases.",
+  "cases": [
+    {
+      "name": "normalized: complete",
+      "schema": "NormalizedMetrics",
+      "valid": true,
+      "data": {
+        "routing_ms": 3.5,
+        "wall_ms": 2600.0,
+        "ttft_ms": 700.0,
+        "load_ms": 500.0,
+        "prompt_eval_ms": 100.0,
+        "generation_ms": 1600.0,
+        "ollama_total_ms": 2500.0,
+        "prompt_tokens": 26,
+        "generated_tokens": 100,
+        "prompt_tokens_per_second": 260.0,
+        "generation_tokens_per_second": 62.5,
+        "raw_ollama": {
+          "total_duration": 2500000000,
+          "load_duration": 500000000,
+          "prompt_eval_count": 26,
+          "prompt_eval_duration": 100000000,
+          "eval_count": 100,
+          "eval_duration": 1600000000
+        },
+        "completeness": {
+          "status": "complete",
+          "missing": [],
+          "reason": null
+        }
+      }
+    },
+    {
+      "name": "normalized: incomplete, stream ended before final chunk",
+      "schema": "NormalizedMetrics",
+      "valid": true,
+      "data": {
+        "routing_ms": 2.0,
+        "wall_ms": 350.0,
+        "ttft_ms": 120.0,
+        "load_ms": null,
+        "prompt_eval_ms": null,
+        "generation_ms": null,
+        "ollama_total_ms": null,
+        "prompt_tokens": null,
+        "generated_tokens": null,
+        "prompt_tokens_per_second": null,
+        "generation_tokens_per_second": null,
+        "raw_ollama": null,
+        "completeness": {
+          "status": "incomplete",
+          "missing": [
+            "load_ms",
+            "prompt_eval_ms",
+            "generation_ms",
+            "ollama_total_ms",
+            "prompt_tokens",
+            "generated_tokens"
+          ],
+          "reason": "no_final_chunk"
+        }
+      }
+    },
+    {
+      "name": "normalized: throughput must equal tokens/duration",
+      "schema": "NormalizedMetrics",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "routing_ms": 3.5,
+        "wall_ms": 2600.0,
+        "ttft_ms": 700.0,
+        "load_ms": 500.0,
+        "prompt_eval_ms": 100.0,
+        "generation_ms": 1600.0,
+        "ollama_total_ms": 2500.0,
+        "prompt_tokens": 26,
+        "generated_tokens": 100,
+        "prompt_tokens_per_second": 260.0,
+        "generation_tokens_per_second": 99.0,
+        "raw_ollama": {
+          "total_duration": 2500000000,
+          "load_duration": 500000000,
+          "prompt_eval_count": 26,
+          "prompt_eval_duration": 100000000,
+          "eval_count": 100,
+          "eval_duration": 1600000000
+        },
+        "completeness": {
+          "status": "complete",
+          "missing": [],
+          "reason": null
+        }
+      }
+    },
+    {
+      "name": "normalized: missing list must match null fields",
+      "schema": "NormalizedMetrics",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "routing_ms": 2.0,
+        "wall_ms": 350.0,
+        "ttft_ms": 120.0,
+        "load_ms": null,
+        "prompt_eval_ms": null,
+        "generation_ms": null,
+        "ollama_total_ms": null,
+        "prompt_tokens": null,
+        "generated_tokens": null,
+        "prompt_tokens_per_second": null,
+        "generation_tokens_per_second": null,
+        "raw_ollama": null,
+        "completeness": {
+          "status": "incomplete",
+          "missing": [
+            "load_ms"
+          ],
+          "reason": "no_final_chunk"
+        }
+      }
+    },
+    {
+      "name": "normalized: 'complete' with a null required field",
+      "schema": "NormalizedMetrics",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "routing_ms": 3.5,
+        "wall_ms": 2600.0,
+        "ttft_ms": 700.0,
+        "load_ms": null,
+        "prompt_eval_ms": 100.0,
+        "generation_ms": 1600.0,
+        "ollama_total_ms": 2500.0,
+        "prompt_tokens": 26,
+        "generated_tokens": 100,
+        "prompt_tokens_per_second": 260.0,
+        "generation_tokens_per_second": 62.5,
+        "raw_ollama": {
+          "total_duration": 2500000000,
+          "load_duration": 500000000,
+          "prompt_eval_count": 26,
+          "prompt_eval_duration": 100000000,
+          "eval_count": 100,
+          "eval_duration": 1600000000
+        },
+        "completeness": {
+          "status": "complete",
+          "missing": [],
+          "reason": null
+        }
+      }
+    },
+    {
+      "name": "normalized: throughput is never invented without measured tokens",
+      "schema": "NormalizedMetrics",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "routing_ms": 2.0,
+        "wall_ms": 350.0,
+        "ttft_ms": 120.0,
+        "load_ms": null,
+        "prompt_eval_ms": null,
+        "generation_ms": null,
+        "ollama_total_ms": null,
+        "prompt_tokens": null,
+        "generated_tokens": null,
+        "prompt_tokens_per_second": null,
+        "generation_tokens_per_second": 10.0,
+        "raw_ollama": null,
+        "completeness": {
+          "status": "incomplete",
+          "missing": [
+            "load_ms",
+            "prompt_eval_ms",
+            "generation_ms",
+            "ollama_total_ms",
+            "prompt_tokens",
+            "generated_tokens"
+          ],
+          "reason": "no_final_chunk"
+        }
+      }
+    },
+    {
+      "name": "raw ollama: all fields optional, preserved verbatim",
+      "schema": "RawOllamaMetrics",
+      "valid": true,
+      "data": {
+        "total_duration": 2500000000,
+        "load_duration": 500000000,
+        "prompt_eval_count": 26,
+        "prompt_eval_duration": 100000000,
+        "eval_count": 100,
+        "eval_duration": 1600000000
+      }
+    },
+    {
+      "name": "raw ollama: negative duration rejected",
+      "schema": "RawOllamaMetrics",
+      "valid": false,
+      "data": {
+        "total_duration": 2500000000,
+        "load_duration": -1,
+        "prompt_eval_count": 26,
+        "prompt_eval_duration": 100000000,
+        "eval_count": 100,
+        "eval_duration": 1600000000
+      }
+    },
+    {
+      "name": "progress: only app-observed values",
+      "schema": "ProgressMetrics",
+      "valid": true,
+      "data": {
+        "elapsed_ms": 400.0,
+        "visible_chunks": 2,
+        "ttft_ms": 120.0
+      }
+    },
+    {
+      "name": "progress: no Ollama stage durations allowed live",
+      "schema": "ProgressMetrics",
+      "valid": false,
+      "data": {
+        "elapsed_ms": 400.0,
+        "visible_chunks": 2,
+        "ttft_ms": 120.0,
+        "load_ms": 5.0
+      }
+    }
+  ]
+}

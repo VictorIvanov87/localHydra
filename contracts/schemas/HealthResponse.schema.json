@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "const": "ok",
+      "default": "ok",
+      "title": "Status",
+      "type": "string"
+    },
+    "service": {
+      "const": "localhydra",
+      "default": "localhydra",
+      "title": "Service",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "contract_version": {
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "event_schema_version": {
+      "title": "Event Schema Version",
+      "type": "integer"
+    },
+    "local_only": {
+      "const": true,
+      "default": true,
+      "title": "Local Only",
+      "type": "boolean"
+    },
+    "bind_host": {
+      "title": "Bind Host",
+      "type": "string"
+    },
+    "ollama_target": {
+      "title": "Ollama Target",
+      "type": "string"
+    },
+    "models_configured": {
+      "minimum": 0,
+      "title": "Models Configured",
+      "type": "integer"
+    },
+    "time": {
+      "format": "date-time",
+      "title": "Time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "version",
+    "contract_version",
+    "event_schema_version",
+    "bind_host",
+    "ollama_target",
+    "models_configured",
+    "time"
+  ],
+  "title": "HealthResponse",
+  "type": "object"
+}

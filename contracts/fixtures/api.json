@@ -1,0 +1,1738 @@
+{
+  "synthetic": true,
+  "label": "SYNTHETIC contract fixture: invented placeholder data, not a measurement or recommendation.",
+  "description": "HTTP request/response/error schema cases.",
+  "cases": [
+    {
+      "name": "health",
+      "schema": "HealthResponse",
+      "valid": true,
+      "data": {
+        "status": "ok",
+        "service": "localhydra",
+        "version": "0.1.0",
+        "contract_version": "1.0.0",
+        "event_schema_version": 1,
+        "local_only": true,
+        "bind_host": "127.0.0.1",
+        "ollama_target": "http://127.0.0.1:11434",
+        "models_configured": 4,
+        "time": "2026-10-22T10:00:00.000Z"
+      }
+    },
+    {
+      "name": "health: local_only cannot be false",
+      "schema": "HealthResponse",
+      "valid": false,
+      "data": {
+        "status": "ok",
+        "service": "localhydra",
+        "version": "0.1.0",
+        "contract_version": "1.0.0",
+        "event_schema_version": 1,
+        "local_only": false,
+        "bind_host": "127.0.0.1",
+        "ollama_target": "http://127.0.0.1:11434",
+        "models_configured": 4,
+        "time": "2026-10-22T10:00:00.000Z"
+      }
+    },
+    {
+      "name": "error: validation (no input echo)",
+      "schema": "ErrorEnvelope",
+      "valid": true,
+      "data": {
+        "error": {
+          "code": "validation_error",
+          "message": "Request validation failed",
+          "retryable": false,
+          "details": {
+            "errors": [
+              {
+                "loc": [
+                  "body",
+                  "messages"
+                ],
+                "type": "too_short"
+              }
+            ]
+          },
+          "request_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    },
+    {
+      "name": "error: no eligible model",
+      "schema": "ErrorEnvelope",
+      "valid": true,
+      "data": {
+        "error": {
+          "code": "no_eligible_model",
+          "message": "No eligible model",
+          "retryable": false,
+          "details": null,
+          "request_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    },
+    {
+      "name": "error: unknown code rejected",
+      "schema": "ErrorEnvelope",
+      "valid": false,
+      "data": {
+        "error": {
+          "code": "boom",
+          "message": "x",
+          "retryable": false,
+          "details": null,
+          "request_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    },
+    {
+      "name": "error: missing message rejected",
+      "schema": "ErrorEnvelope",
+      "valid": false,
+      "data": {
+        "error": {
+          "code": "not_found"
+        }
+      }
+    },
+    {
+      "name": "create run: auto",
+      "schema": "CreateRunRequest",
+      "valid": true,
+      "data": {
+        "conversation_id": null,
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ],
+        "routing_mode": "auto",
+        "model_override": null,
+        "max_output_tokens": null
+      }
+    },
+    {
+      "name": "create run: manual override with output cap and conversation",
+      "schema": "CreateRunRequest",
+      "valid": true,
+      "data": {
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ],
+        "routing_mode": "manual",
+        "model_override": "model-2",
+        "max_output_tokens": 256
+      }
+    },
+    {
+      "name": "create run: omitted optional fields use defaults",
+      "schema": "CreateRunRequest",
+      "valid": true,
+      "data": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ]
+      }
+    },
+    {
+      "name": "create run: manual without override rejected",
+      "schema": "CreateRunRequest",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "conversation_id": null,
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ],
+        "routing_mode": "manual",
+        "model_override": null,
+        "max_output_tokens": null
+      }
+    },
+    {
+      "name": "create run: override without manual rejected",
+      "schema": "CreateRunRequest",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "conversation_id": null,
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ],
+        "routing_mode": "auto",
+        "model_override": "model-1",
+        "max_output_tokens": null
+      }
+    },
+    {
+      "name": "create run: last message must be from user",
+      "schema": "CreateRunRequest",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "conversation_id": null,
+        "messages": [
+          {
+            "role": "assistant",
+            "content": "hi"
+          }
+        ],
+        "routing_mode": "auto",
+        "model_override": null,
+        "max_output_tokens": null
+      }
+    },
+    {
+      "name": "create run: empty messages rejected",
+      "schema": "CreateRunRequest",
+      "valid": false,
+      "data": {
+        "conversation_id": null,
+        "messages": [],
+        "routing_mode": "auto",
+        "model_override": null,
+        "max_output_tokens": null
+      }
+    },
+    {
+      "name": "create run: override is a profile id, not an Ollama tag",
+      "schema": "CreateRunRequest",
+      "valid": false,
+      "data": {
+        "conversation_id": null,
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ],
+        "routing_mode": "manual",
+        "model_override": "example/model-1:synthetic",
+        "max_output_tokens": null
+      }
+    },
+    {
+      "name": "create run: unknown field (endpoint) rejected",
+      "schema": "CreateRunRequest",
+      "valid": false,
+      "data": {
+        "conversation_id": null,
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ],
+        "routing_mode": "auto",
+        "model_override": null,
+        "max_output_tokens": null,
+        "endpoint": "http://example.com"
+      }
+    },
+    {
+      "name": "create run response",
+      "schema": "CreateRunResponse",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "queued",
+        "events_url": "/api/runs/run_00000000000000000000000000000001/events",
+        "created_at": "2026-10-22T10:00:00.000Z"
+      }
+    },
+    {
+      "name": "create run response: status must be queued",
+      "schema": "CreateRunResponse",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "routing",
+        "events_url": "/api/runs/run_00000000000000000000000000000001/events",
+        "created_at": "2026-10-22T10:00:00.000Z"
+      }
+    },
+    {
+      "name": "run summary: completed",
+      "schema": "RunSummary",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "completed",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": "2026-10-22T10:00:00.090Z",
+        "last_sequence": 9,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": "complete",
+        "error": null
+      }
+    },
+    {
+      "name": "run summary: failed carries error",
+      "schema": "RunSummary",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "failed",
+        "routing_mode": "auto",
+        "selected_model_id": null,
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": "2026-10-22T10:00:00.090Z",
+        "last_sequence": 9,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": null,
+        "error": {
+          "code": "no_eligible_model",
+          "message": "No eligible model",
+          "retryable": false,
+          "details": null,
+          "request_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    },
+    {
+      "name": "run summary: queued run is unfinished",
+      "schema": "RunSummary",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "queued",
+        "routing_mode": "auto",
+        "selected_model_id": null,
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": null,
+        "last_sequence": 1,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": null,
+        "error": null
+      }
+    },
+    {
+      "name": "run summary: failed without error rejected",
+      "schema": "RunSummary",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "failed",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": "2026-10-22T10:00:00.090Z",
+        "last_sequence": 9,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": "complete",
+        "error": null
+      }
+    },
+    {
+      "name": "run summary: terminal without finished_at rejected",
+      "schema": "RunSummary",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "completed",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": null,
+        "last_sequence": 9,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": "complete",
+        "error": null
+      }
+    },
+    {
+      "name": "run detail: completed, content not retained (privacy default)",
+      "schema": "RunDetail",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "completed",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": "2026-10-22T10:00:00.090Z",
+        "last_sequence": 9,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": "complete",
+        "error": null,
+        "model_override": null,
+        "routing": {
+          "policy_version": "synthetic-policy-0",
+          "mode": "auto",
+          "requirements": {
+            "task_type": "chat",
+            "required_modalities": [
+              "text"
+            ],
+            "requires_tools": false,
+            "source": "rules",
+            "confidence": null,
+            "classifier_id": null
+          },
+          "context_estimate": {
+            "method": "ascii3_nonascii1_v1",
+            "message_count": 1,
+            "point_tokens": 33,
+            "upper_bound_tokens": 42,
+            "margin": 1.25,
+            "uncertainty": "Synthetic fixture value."
+          },
+          "candidates": [
+            {
+              "model_id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.75,
+                  "weight": 0.5,
+                  "contribution": 0.375
+                },
+                {
+                  "name": "latency",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                }
+              ],
+              "score": 0.625
+            },
+            {
+              "model_id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                },
+                {
+                  "name": "latency",
+                  "value": 0.25,
+                  "weight": 0.5,
+                  "contribution": 0.125
+                }
+              ],
+              "score": 0.375
+            },
+            {
+              "model_id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "eligible": false,
+              "rejections": [
+                "not_installed"
+              ],
+              "context_fit": null,
+              "components": [],
+              "score": null
+            },
+            {
+              "model_id": "model-4",
+              "tag": "example/model-4:synthetic",
+              "eligible": false,
+              "rejections": [
+                "context_exceeded"
+              ],
+              "context_fit": {
+                "fits": false,
+                "context_window": 512,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": "context_exceeded"
+              },
+              "components": [],
+              "score": null
+            }
+          ],
+          "outcome": "selected",
+          "selected_model_id": "model-1",
+          "reasons": [
+            "highest_score"
+          ],
+          "override_applied": false,
+          "sticky_applied": false,
+          "decided_at": "2026-10-22T10:00:00.005Z"
+        },
+        "metrics": {
+          "routing_ms": 3.5,
+          "wall_ms": 2600.0,
+          "ttft_ms": 700.0,
+          "load_ms": 500.0,
+          "prompt_eval_ms": 100.0,
+          "generation_ms": 1600.0,
+          "ollama_total_ms": 2500.0,
+          "prompt_tokens": 26,
+          "generated_tokens": 100,
+          "prompt_tokens_per_second": 260.0,
+          "generation_tokens_per_second": 62.5,
+          "raw_ollama": {
+            "total_duration": 2500000000,
+            "load_duration": 500000000,
+            "prompt_eval_count": 26,
+            "prompt_eval_duration": 100000000,
+            "eval_count": 100,
+            "eval_duration": 1600000000
+          },
+          "completeness": {
+            "status": "complete",
+            "missing": [],
+            "reason": null
+          }
+        },
+        "cancel_requested": false,
+        "messages": null,
+        "response_text": null,
+        "transcript_replay_available": false
+      }
+    },
+    {
+      "name": "run detail: completed with opt-in retention",
+      "schema": "RunDetail",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "completed",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": "2026-10-22T10:00:00.090Z",
+        "last_sequence": 9,
+        "retention": {
+          "prompts": true,
+          "responses": true
+        },
+        "metrics_status": "complete",
+        "error": null,
+        "model_override": null,
+        "routing": {
+          "policy_version": "synthetic-policy-0",
+          "mode": "auto",
+          "requirements": {
+            "task_type": "chat",
+            "required_modalities": [
+              "text"
+            ],
+            "requires_tools": false,
+            "source": "rules",
+            "confidence": null,
+            "classifier_id": null
+          },
+          "context_estimate": {
+            "method": "ascii3_nonascii1_v1",
+            "message_count": 1,
+            "point_tokens": 33,
+            "upper_bound_tokens": 42,
+            "margin": 1.25,
+            "uncertainty": "Synthetic fixture value."
+          },
+          "candidates": [
+            {
+              "model_id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.75,
+                  "weight": 0.5,
+                  "contribution": 0.375
+                },
+                {
+                  "name": "latency",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                }
+              ],
+              "score": 0.625
+            },
+            {
+              "model_id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                },
+                {
+                  "name": "latency",
+                  "value": 0.25,
+                  "weight": 0.5,
+                  "contribution": 0.125
+                }
+              ],
+              "score": 0.375
+            },
+            {
+              "model_id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "eligible": false,
+              "rejections": [
+                "not_installed"
+              ],
+              "context_fit": null,
+              "components": [],
+              "score": null
+            },
+            {
+              "model_id": "model-4",
+              "tag": "example/model-4:synthetic",
+              "eligible": false,
+              "rejections": [
+                "context_exceeded"
+              ],
+              "context_fit": {
+                "fits": false,
+                "context_window": 512,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": "context_exceeded"
+              },
+              "components": [],
+              "score": null
+            }
+          ],
+          "outcome": "selected",
+          "selected_model_id": "model-1",
+          "reasons": [
+            "highest_score"
+          ],
+          "override_applied": false,
+          "sticky_applied": false,
+          "decided_at": "2026-10-22T10:00:00.005Z"
+        },
+        "metrics": {
+          "routing_ms": 3.5,
+          "wall_ms": 2600.0,
+          "ttft_ms": 700.0,
+          "load_ms": 500.0,
+          "prompt_eval_ms": 100.0,
+          "generation_ms": 1600.0,
+          "ollama_total_ms": 2500.0,
+          "prompt_tokens": 26,
+          "generated_tokens": 100,
+          "prompt_tokens_per_second": 260.0,
+          "generation_tokens_per_second": 62.5,
+          "raw_ollama": {
+            "total_duration": 2500000000,
+            "load_duration": 500000000,
+            "prompt_eval_count": 26,
+            "prompt_eval_duration": 100000000,
+            "eval_count": 100,
+            "eval_duration": 1600000000
+          },
+          "completeness": {
+            "status": "complete",
+            "missing": [],
+            "reason": null
+          }
+        },
+        "cancel_requested": false,
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ],
+        "response_text": "Rain falls softly.",
+        "transcript_replay_available": true
+      }
+    },
+    {
+      "name": "run detail: cancel requested while generating",
+      "schema": "RunDetail",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "generating",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": null,
+        "last_sequence": 6,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": null,
+        "error": null,
+        "model_override": null,
+        "routing": {
+          "policy_version": "synthetic-policy-0",
+          "mode": "auto",
+          "requirements": {
+            "task_type": "chat",
+            "required_modalities": [
+              "text"
+            ],
+            "requires_tools": false,
+            "source": "rules",
+            "confidence": null,
+            "classifier_id": null
+          },
+          "context_estimate": {
+            "method": "ascii3_nonascii1_v1",
+            "message_count": 1,
+            "point_tokens": 33,
+            "upper_bound_tokens": 42,
+            "margin": 1.25,
+            "uncertainty": "Synthetic fixture value."
+          },
+          "candidates": [
+            {
+              "model_id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.75,
+                  "weight": 0.5,
+                  "contribution": 0.375
+                },
+                {
+                  "name": "latency",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                }
+              ],
+              "score": 0.625
+            },
+            {
+              "model_id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                },
+                {
+                  "name": "latency",
+                  "value": 0.25,
+                  "weight": 0.5,
+                  "contribution": 0.125
+                }
+              ],
+              "score": 0.375
+            },
+            {
+              "model_id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "eligible": false,
+              "rejections": [
+                "not_installed"
+              ],
+              "context_fit": null,
+              "components": [],
+              "score": null
+            },
+            {
+              "model_id": "model-4",
+              "tag": "example/model-4:synthetic",
+              "eligible": false,
+              "rejections": [
+                "context_exceeded"
+              ],
+              "context_fit": {
+                "fits": false,
+                "context_window": 512,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": "context_exceeded"
+              },
+              "components": [],
+              "score": null
+            }
+          ],
+          "outcome": "selected",
+          "selected_model_id": "model-1",
+          "reasons": [
+            "highest_score"
+          ],
+          "override_applied": false,
+          "sticky_applied": false,
+          "decided_at": "2026-10-22T10:00:00.005Z"
+        },
+        "metrics": null,
+        "cancel_requested": true,
+        "messages": null,
+        "response_text": null,
+        "transcript_replay_available": false
+      }
+    },
+    {
+      "name": "run detail: messages without prompt retention rejected",
+      "schema": "RunDetail",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "completed",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": "2026-10-22T10:00:00.090Z",
+        "last_sequence": 9,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": "complete",
+        "error": null,
+        "model_override": null,
+        "routing": {
+          "policy_version": "synthetic-policy-0",
+          "mode": "auto",
+          "requirements": {
+            "task_type": "chat",
+            "required_modalities": [
+              "text"
+            ],
+            "requires_tools": false,
+            "source": "rules",
+            "confidence": null,
+            "classifier_id": null
+          },
+          "context_estimate": {
+            "method": "ascii3_nonascii1_v1",
+            "message_count": 1,
+            "point_tokens": 33,
+            "upper_bound_tokens": 42,
+            "margin": 1.25,
+            "uncertainty": "Synthetic fixture value."
+          },
+          "candidates": [
+            {
+              "model_id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.75,
+                  "weight": 0.5,
+                  "contribution": 0.375
+                },
+                {
+                  "name": "latency",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                }
+              ],
+              "score": 0.625
+            },
+            {
+              "model_id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                },
+                {
+                  "name": "latency",
+                  "value": 0.25,
+                  "weight": 0.5,
+                  "contribution": 0.125
+                }
+              ],
+              "score": 0.375
+            },
+            {
+              "model_id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "eligible": false,
+              "rejections": [
+                "not_installed"
+              ],
+              "context_fit": null,
+              "components": [],
+              "score": null
+            },
+            {
+              "model_id": "model-4",
+              "tag": "example/model-4:synthetic",
+              "eligible": false,
+              "rejections": [
+                "context_exceeded"
+              ],
+              "context_fit": {
+                "fits": false,
+                "context_window": 512,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": "context_exceeded"
+              },
+              "components": [],
+              "score": null
+            }
+          ],
+          "outcome": "selected",
+          "selected_model_id": "model-1",
+          "reasons": [
+            "highest_score"
+          ],
+          "override_applied": false,
+          "sticky_applied": false,
+          "decided_at": "2026-10-22T10:00:00.005Z"
+        },
+        "metrics": {
+          "routing_ms": 3.5,
+          "wall_ms": 2600.0,
+          "ttft_ms": 700.0,
+          "load_ms": 500.0,
+          "prompt_eval_ms": 100.0,
+          "generation_ms": 1600.0,
+          "ollama_total_ms": 2500.0,
+          "prompt_tokens": 26,
+          "generated_tokens": 100,
+          "prompt_tokens_per_second": 260.0,
+          "generation_tokens_per_second": 62.5,
+          "raw_ollama": {
+            "total_duration": 2500000000,
+            "load_duration": 500000000,
+            "prompt_eval_count": 26,
+            "prompt_eval_duration": 100000000,
+            "eval_count": 100,
+            "eval_duration": 1600000000
+          },
+          "completeness": {
+            "status": "complete",
+            "missing": [],
+            "reason": null
+          }
+        },
+        "cancel_requested": false,
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          }
+        ],
+        "response_text": null,
+        "transcript_replay_available": false
+      }
+    },
+    {
+      "name": "run detail: response_text without response retention rejected",
+      "schema": "RunDetail",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "completed",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": "2026-10-22T10:00:00.090Z",
+        "last_sequence": 9,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": "complete",
+        "error": null,
+        "model_override": null,
+        "routing": {
+          "policy_version": "synthetic-policy-0",
+          "mode": "auto",
+          "requirements": {
+            "task_type": "chat",
+            "required_modalities": [
+              "text"
+            ],
+            "requires_tools": false,
+            "source": "rules",
+            "confidence": null,
+            "classifier_id": null
+          },
+          "context_estimate": {
+            "method": "ascii3_nonascii1_v1",
+            "message_count": 1,
+            "point_tokens": 33,
+            "upper_bound_tokens": 42,
+            "margin": 1.25,
+            "uncertainty": "Synthetic fixture value."
+          },
+          "candidates": [
+            {
+              "model_id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.75,
+                  "weight": 0.5,
+                  "contribution": 0.375
+                },
+                {
+                  "name": "latency",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                }
+              ],
+              "score": 0.625
+            },
+            {
+              "model_id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                },
+                {
+                  "name": "latency",
+                  "value": 0.25,
+                  "weight": 0.5,
+                  "contribution": 0.125
+                }
+              ],
+              "score": 0.375
+            },
+            {
+              "model_id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "eligible": false,
+              "rejections": [
+                "not_installed"
+              ],
+              "context_fit": null,
+              "components": [],
+              "score": null
+            },
+            {
+              "model_id": "model-4",
+              "tag": "example/model-4:synthetic",
+              "eligible": false,
+              "rejections": [
+                "context_exceeded"
+              ],
+              "context_fit": {
+                "fits": false,
+                "context_window": 512,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": "context_exceeded"
+              },
+              "components": [],
+              "score": null
+            }
+          ],
+          "outcome": "selected",
+          "selected_model_id": "model-1",
+          "reasons": [
+            "highest_score"
+          ],
+          "override_applied": false,
+          "sticky_applied": false,
+          "decided_at": "2026-10-22T10:00:00.005Z"
+        },
+        "metrics": {
+          "routing_ms": 3.5,
+          "wall_ms": 2600.0,
+          "ttft_ms": 700.0,
+          "load_ms": 500.0,
+          "prompt_eval_ms": 100.0,
+          "generation_ms": 1600.0,
+          "ollama_total_ms": 2500.0,
+          "prompt_tokens": 26,
+          "generated_tokens": 100,
+          "prompt_tokens_per_second": 260.0,
+          "generation_tokens_per_second": 62.5,
+          "raw_ollama": {
+            "total_duration": 2500000000,
+            "load_duration": 500000000,
+            "prompt_eval_count": 26,
+            "prompt_eval_duration": 100000000,
+            "eval_count": 100,
+            "eval_duration": 1600000000
+          },
+          "completeness": {
+            "status": "complete",
+            "missing": [],
+            "reason": null
+          }
+        },
+        "cancel_requested": false,
+        "messages": null,
+        "response_text": "leak",
+        "transcript_replay_available": false
+      }
+    },
+    {
+      "name": "run detail: replay flag must follow retention",
+      "schema": "RunDetail",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "status": "completed",
+        "routing_mode": "auto",
+        "selected_model_id": "model-1",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "finished_at": "2026-10-22T10:00:00.090Z",
+        "last_sequence": 9,
+        "retention": {
+          "prompts": false,
+          "responses": false
+        },
+        "metrics_status": "complete",
+        "error": null,
+        "model_override": null,
+        "routing": {
+          "policy_version": "synthetic-policy-0",
+          "mode": "auto",
+          "requirements": {
+            "task_type": "chat",
+            "required_modalities": [
+              "text"
+            ],
+            "requires_tools": false,
+            "source": "rules",
+            "confidence": null,
+            "classifier_id": null
+          },
+          "context_estimate": {
+            "method": "ascii3_nonascii1_v1",
+            "message_count": 1,
+            "point_tokens": 33,
+            "upper_bound_tokens": 42,
+            "margin": 1.25,
+            "uncertainty": "Synthetic fixture value."
+          },
+          "candidates": [
+            {
+              "model_id": "model-1",
+              "tag": "example/model-1:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.75,
+                  "weight": 0.5,
+                  "contribution": 0.375
+                },
+                {
+                  "name": "latency",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                }
+              ],
+              "score": 0.625
+            },
+            {
+              "model_id": "model-2",
+              "tag": "example/model-2:synthetic",
+              "eligible": true,
+              "rejections": [],
+              "context_fit": {
+                "fits": true,
+                "context_window": 8192,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": null
+              },
+              "components": [
+                {
+                  "name": "task_suitability",
+                  "value": 0.5,
+                  "weight": 0.5,
+                  "contribution": 0.25
+                },
+                {
+                  "name": "latency",
+                  "value": 0.25,
+                  "weight": 0.5,
+                  "contribution": 0.125
+                }
+              ],
+              "score": 0.375
+            },
+            {
+              "model_id": "model-3",
+              "tag": "example/model-3:synthetic",
+              "eligible": false,
+              "rejections": [
+                "not_installed"
+              ],
+              "context_fit": null,
+              "components": [],
+              "score": null
+            },
+            {
+              "model_id": "model-4",
+              "tag": "example/model-4:synthetic",
+              "eligible": false,
+              "rejections": [
+                "context_exceeded"
+              ],
+              "context_fit": {
+                "fits": false,
+                "context_window": 512,
+                "upper_bound_tokens": 42,
+                "output_reserve": 1024,
+                "required_tokens": 1066,
+                "failure": "context_exceeded"
+              },
+              "components": [],
+              "score": null
+            }
+          ],
+          "outcome": "selected",
+          "selected_model_id": "model-1",
+          "reasons": [
+            "highest_score"
+          ],
+          "override_applied": false,
+          "sticky_applied": false,
+          "decided_at": "2026-10-22T10:00:00.005Z"
+        },
+        "metrics": {
+          "routing_ms": 3.5,
+          "wall_ms": 2600.0,
+          "ttft_ms": 700.0,
+          "load_ms": 500.0,
+          "prompt_eval_ms": 100.0,
+          "generation_ms": 1600.0,
+          "ollama_total_ms": 2500.0,
+          "prompt_tokens": 26,
+          "generated_tokens": 100,
+          "prompt_tokens_per_second": 260.0,
+          "generation_tokens_per_second": 62.5,
+          "raw_ollama": {
+            "total_duration": 2500000000,
+            "load_duration": 500000000,
+            "prompt_eval_count": 26,
+            "prompt_eval_duration": 100000000,
+            "eval_count": 100,
+            "eval_duration": 1600000000
+          },
+          "completeness": {
+            "status": "complete",
+            "missing": [],
+            "reason": null
+          }
+        },
+        "cancel_requested": false,
+        "messages": null,
+        "response_text": null,
+        "transcript_replay_available": true
+      }
+    },
+    {
+      "name": "run page: with next cursor",
+      "schema": "RunPage",
+      "valid": true,
+      "data": {
+        "items": [
+          {
+            "run_id": "run_00000000000000000000000000000001",
+            "conversation_id": "conv_00000000000000000000000000000001",
+            "status": "completed",
+            "routing_mode": "auto",
+            "selected_model_id": "model-1",
+            "created_at": "2026-10-22T10:00:00.000Z",
+            "updated_at": "2026-10-22T10:00:00.090Z",
+            "finished_at": "2026-10-22T10:00:00.090Z",
+            "last_sequence": 9,
+            "retention": {
+              "prompts": false,
+              "responses": false
+            },
+            "metrics_status": "complete",
+            "error": null
+          }
+        ],
+        "limit": 1,
+        "next_cursor": "opaque-cursor-1",
+        "has_more": true
+      }
+    },
+    {
+      "name": "run page: last page",
+      "schema": "RunPage",
+      "valid": true,
+      "data": {
+        "items": [
+          {
+            "run_id": "run_00000000000000000000000000000001",
+            "conversation_id": "conv_00000000000000000000000000000001",
+            "status": "completed",
+            "routing_mode": "auto",
+            "selected_model_id": "model-1",
+            "created_at": "2026-10-22T10:00:00.000Z",
+            "updated_at": "2026-10-22T10:00:00.090Z",
+            "finished_at": "2026-10-22T10:00:00.090Z",
+            "last_sequence": 9,
+            "retention": {
+              "prompts": false,
+              "responses": false
+            },
+            "metrics_status": "complete",
+            "error": null
+          }
+        ],
+        "limit": 20,
+        "next_cursor": null,
+        "has_more": false
+      }
+    },
+    {
+      "name": "run page: has_more requires next_cursor",
+      "schema": "RunPage",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "items": [],
+        "limit": 20,
+        "next_cursor": null,
+        "has_more": true
+      }
+    },
+    {
+      "name": "run page: items may not exceed limit",
+      "schema": "RunPage",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "items": [
+          {
+            "run_id": "run_00000000000000000000000000000001",
+            "conversation_id": "conv_00000000000000000000000000000001",
+            "status": "completed",
+            "routing_mode": "auto",
+            "selected_model_id": "model-1",
+            "created_at": "2026-10-22T10:00:00.000Z",
+            "updated_at": "2026-10-22T10:00:00.090Z",
+            "finished_at": "2026-10-22T10:00:00.090Z",
+            "last_sequence": 9,
+            "retention": {
+              "prompts": false,
+              "responses": false
+            },
+            "metrics_status": "complete",
+            "error": null
+          },
+          {
+            "run_id": "run_00000000000000000000000000000001",
+            "conversation_id": "conv_00000000000000000000000000000001",
+            "status": "completed",
+            "routing_mode": "auto",
+            "selected_model_id": "model-1",
+            "created_at": "2026-10-22T10:00:00.000Z",
+            "updated_at": "2026-10-22T10:00:00.090Z",
+            "finished_at": "2026-10-22T10:00:00.090Z",
+            "last_sequence": 9,
+            "retention": {
+              "prompts": false,
+              "responses": false
+            },
+            "metrics_status": "complete",
+            "error": null
+          }
+        ],
+        "limit": 1,
+        "next_cursor": null,
+        "has_more": false
+      }
+    },
+    {
+      "name": "run page: limit over 100 rejected",
+      "schema": "RunPage",
+      "valid": false,
+      "data": {
+        "items": [],
+        "limit": 101,
+        "next_cursor": null,
+        "has_more": false
+      }
+    },
+    {
+      "name": "list query: defaults",
+      "schema": "ListRunsQuery",
+      "valid": true,
+      "data": {}
+    },
+    {
+      "name": "list query: filters",
+      "schema": "ListRunsQuery",
+      "valid": true,
+      "data": {
+        "limit": 50,
+        "cursor": "opaque-cursor-1",
+        "status": "completed",
+        "conversation_id": "conv_00000000000000000000000000000001"
+      }
+    },
+    {
+      "name": "list query: limit 0 rejected",
+      "schema": "ListRunsQuery",
+      "valid": false,
+      "data": {
+        "limit": 0
+      }
+    },
+    {
+      "name": "cancel: cancelled (queued run)",
+      "schema": "CancelResponse",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "status": "cancelled",
+        "cancel_effect": "cancelled"
+      }
+    },
+    {
+      "name": "cancel: requested (running)",
+      "schema": "CancelResponse",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "status": "generating",
+        "cancel_effect": "cancel_requested"
+      }
+    },
+    {
+      "name": "cancel: already terminal (idempotent)",
+      "schema": "CancelResponse",
+      "valid": true,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "status": "completed",
+        "cancel_effect": "already_terminal"
+      }
+    },
+    {
+      "name": "cancel: unknown effect rejected",
+      "schema": "CancelResponse",
+      "valid": false,
+      "data": {
+        "run_id": "run_00000000000000000000000000000001",
+        "status": "completed",
+        "cancel_effect": "maybe"
+      }
+    },
+    {
+      "name": "conversation: memory only, bounded",
+      "schema": "ConversationDetail",
+      "valid": true,
+      "data": {
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "sticky_model_id": "model-1",
+        "active_run_id": null,
+        "run_ids": [
+          "run_00000000000000000000000000000001"
+        ],
+        "history": {
+          "max_turns": 50,
+          "turns": 1,
+          "dropped_turns": 0
+        },
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          },
+          {
+            "role": "assistant",
+            "content": "Rain falls softly."
+          }
+        ],
+        "persistence": "memory_only",
+        "lost_on_restart": true
+      }
+    },
+    {
+      "name": "conversation: turns above max rejected",
+      "schema": "ConversationDetail",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "sticky_model_id": "model-1",
+        "active_run_id": null,
+        "run_ids": [
+          "run_00000000000000000000000000000001"
+        ],
+        "history": {
+          "max_turns": 2,
+          "turns": 3,
+          "dropped_turns": 0
+        },
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          },
+          {
+            "role": "assistant",
+            "content": "Rain falls softly."
+          }
+        ],
+        "persistence": "memory_only",
+        "lost_on_restart": true
+      }
+    },
+    {
+      "name": "conversation: persistence must disclose memory_only",
+      "schema": "ConversationDetail",
+      "valid": false,
+      "schema_valid": true,
+      "data": {
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "created_at": "2026-10-22T10:00:00.000Z",
+        "updated_at": "2026-10-22T10:00:00.090Z",
+        "sticky_model_id": "model-1",
+        "active_run_id": null,
+        "run_ids": [
+          "run_00000000000000000000000000000001"
+        ],
+        "history": {
+          "max_turns": 50,
+          "turns": 1,
+          "dropped_turns": 0
+        },
+        "messages": [
+          {
+            "role": "user",
+            "content": "Write a haiku about rain."
+          },
+          {
+            "role": "assistant",
+            "content": "Rain falls softly."
+          }
+        ],
+        "persistence": "sqlite",
+        "lost_on_restart": true
+      }
+    },
+    {
+      "name": "conversation reset",
+      "schema": "ConversationResetResponse",
+      "valid": true,
+      "data": {
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "reset": true,
+        "cleared_turns": 1,
+        "runs_retained": true
+      }
+    },
+    {
+      "name": "conversation reset: idempotent second call clears 0",
+      "schema": "ConversationResetResponse",
+      "valid": true,
+      "data": {
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "reset": true,
+        "cleared_turns": 0,
+        "runs_retained": true
+      }
+    },
+    {
+      "name": "conversation reset: negative cleared_turns rejected",
+      "schema": "ConversationResetResponse",
+      "valid": false,
+      "data": {
+        "conversation_id": "conv_00000000000000000000000000000001",
+        "reset": true,
+        "cleared_turns": -1,
+        "runs_retained": true
+      }
+    }
+  ]
+}
