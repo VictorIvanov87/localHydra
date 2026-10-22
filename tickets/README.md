@@ -1,6 +1,6 @@
 # localHydra implementation backlog
 
-Eight implementation tickets are prepared. LH-001 is DONE; the rest are TODO: writing these tickets does not mean their implementation is done. Statuses: TODO, IN_PROGRESS, BLOCKED, DONE. DONE requires every acceptance criterion and recorded real execution evidence.
+Eight implementation tickets are prepared. LH-001 and LH-002 are DONE; the rest are TODO: writing these tickets does not mean their implementation is done. Statuses: TODO, IN_PROGRESS, BLOCKED, DONE. DONE requires every acceptance criterion and recorded real execution evidence.
 
 ## Execution order and parallelism
 1. LH-001 freezes scaffold and executable contracts.
@@ -12,7 +12,7 @@ Eight implementation tickets are prepared. LH-001 is DONE; the rest are TODO: wr
 | ID | Task | Required dependencies for DONE | Status |
 |---|---|---|---|
 | [LH-001](LH-001.md) | Scaffold and contracts | None | DONE |
-| [LH-002](LH-002.md) | Ollama adapter and telemetry | LH-001 | TODO |
+| [LH-002](LH-002.md) | Ollama adapter and telemetry | LH-001 | DONE |
 | [LH-003](LH-003.md) | Explainable routing | LH-001 | TODO |
 | [LH-004](LH-004.md) | Runtime, conversations and events | LH-002, LH-003 | TODO |
 | [LH-005](LH-005.md) | Dashboard and controls | LH-001 | TODO |

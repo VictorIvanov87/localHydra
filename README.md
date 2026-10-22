@@ -16,4 +16,4 @@ Choose among 4–5 user-configured local models according to task requirements, 
 Python 3.11+ / FastAPI / Pydantic / httpx / SQLite backend; React / TypeScript / Vite dashboard; pytest and Playwright tests. These are implementation defaults, not installed scaffolding. LH-001 may change a default with a written rationale before dependent work begins.
 
 ## Start here
-Read docs/architecture.md and tickets/README.md. The numbered ticket files are the implementation backlog. LH-001 (scaffold and frozen contracts) is done; see docs/development.md for commands and docs/contracts.md for the contracts. Generation, routing, the Ollama adapter and the dashboard are not implemented yet (LH-002 onward).
+Read docs/architecture.md and tickets/README.md. The numbered ticket files are the implementation backlog. LH-001 (scaffold and frozen contracts) and LH-002 (Ollama adapter and telemetry) are done; see docs/development.md for commands and the adapter guide, and docs/contracts.md for the contracts. Routing, the run runtime/API and the dashboard are not implemented yet (LH-003 onward).

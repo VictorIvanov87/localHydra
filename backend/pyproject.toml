@@ -11,13 +11,13 @@ dependencies = [
   "fastapi>=0.115,<1",
   "pydantic>=2.8,<3",
   "uvicorn>=0.30,<1",
+  # Runtime HTTP client of the Ollama adapter (LH-002); also used by FastAPI's TestClient.
+  "httpx>=0.27,<1",
 ]
 
 [project.optional-dependencies]
-# httpx is here only for FastAPI's TestClient; the runtime Ollama client is added by LH-002.
 dev = [
   "pytest>=8,<10",
-  "httpx>=0.27,<1",
 ]
 
 [project.scripts]
